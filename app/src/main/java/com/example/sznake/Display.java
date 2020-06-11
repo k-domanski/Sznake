@@ -3,25 +3,8 @@ package com.example.sznake;
 public class Display {
 
     public void printField(GameField field){
-        if(field.getClass() == EmptyField.class){
-            System.out.print(' ');
-        }
-        if(field.getClass() == SnakeHead.class){
-            System.out.print('O');
-        }
-        if(field.getClass() == SnakeTail.class){
-            System.out.print('o');
-        }
-        if(field.getClass() == GrowUp.class){
-            System.out.print('G');
-        }
-        if(field.getClass() == BlockedField.class){
-            System.out.print('#');
-        }
-
+        System.out.print(field);
     }
-
-
 
     public void displayBoard(GameBoard gameBoard){
         for(int i=0;i<gameBoard.getSizeX()+2;i++){
