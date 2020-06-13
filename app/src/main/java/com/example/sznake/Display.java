@@ -2,11 +2,13 @@ package com.example.sznake;
 
 public class Display {
 
-    public void printField(GameField field){
+    private Display() {}
+
+    public static void printField(GameField field){
         System.out.print(field);
     }
 
-    public void displayBoard(GameBoard gameBoard){
+    public static void displayBoard(GameBoard gameBoard){
         for(int i=0;i<gameBoard.getSizeX()+2;i++){
             System.out.print('-');
         }
@@ -27,7 +29,7 @@ public class Display {
 
     }
 
-    public void clearScreen() {
+    public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
