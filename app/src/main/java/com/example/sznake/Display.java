@@ -4,7 +4,7 @@ public class Display {
 
     private Display() {}
 
-    public static void printField(GameField field){
+    private static void printField(GameField field){
         System.out.print(field);
     }
 
