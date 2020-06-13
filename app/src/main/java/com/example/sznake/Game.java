@@ -7,7 +7,6 @@ import java.util.Random;
 public class Game {
 
     private GameBoard gameBoard;
-    private Display display = new Display();
     int points = 0;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
@@ -66,7 +65,7 @@ public class Game {
 
     public void gameLoop() throws InterruptedException {
         generateUpgrade(new GrowUp());
-        display.displayBoard(gameBoard);
+        Display.displayBoard(gameBoard);
         while (true) {
             if (gameBoard.getSnake().nextField().getClass() == GrowUp.class) {
                 points++;
@@ -80,7 +79,7 @@ public class Game {
 
             moveSnake();
 
-            display.displayBoard(gameBoard);
+            Display.displayBoard(gameBoard);
             System.out.println();
             Thread.sleep(1000);
         }
