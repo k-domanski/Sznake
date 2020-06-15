@@ -70,13 +70,11 @@ public class Game {
             if (gameBoard.getSnake().nextField().getClass() == GrowUp.class) {
                 points++;
                 generateUpgrade(new GrowUp());
+                gameBoard.getSnake().setGrowing(true);
             } else if (gameBoard.getSnake().nextField().getClass() == BlockedField.class || gameBoard.getSnake().nextField().getClass() == SnakeBodyPart.class) {
                 break;
             }
-            if (gameBoard.getSnake().nextField().getClass() == GrowUp.class) {
-                gameBoard.getSnake().setGrowing(true);
-            }
-
+            
             moveSnake();
 
             Display.displayBoard(gameBoard);
