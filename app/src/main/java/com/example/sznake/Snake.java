@@ -36,6 +36,10 @@ public class Snake {
         return orientation;
     }
 
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
+
     public void move(SnakeBodyPart snakeBodyPart) {
 
         body.add(0, snakeBodyPart);
