@@ -45,10 +45,18 @@ public class Game {
 
 
     public void gameLoop() throws InterruptedException {
+        Random generator = new Random();
         generateUpgrade(new GrowUp());
         Display.displayBoard(gameBoard);
-        Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         while (true) {
+            Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
+            int x=generator.nextInt(2);
+          /*  if(x==0){
+                gameBoard.getSnake().setOrientation(Orientation.LEFT);
+            }
+            else {
+                gameBoard.getSnake().setOrientation(Orientation.UP);
+            } */
             if (nextFieldType == GrowUp.class) {
                 points++;
                 generateUpgrade(new GrowUp());
