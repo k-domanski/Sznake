@@ -16,46 +16,27 @@ public class Game {
 
     public void moveSnake() {
         Snake snake = gameBoard.getSnake();
-        List<Integer> snakeX = new ArrayList<Integer>();
-        List<Integer> snakeY = new ArrayList<Integer>();
-        for (int i = 0; i < snake.getLength(); i++) {
-            snakeX.add(snake.get(i).getX());
-            snakeY.add(snake.get(i).getY());
-
+        GameField nextLocation = gameBoard.getSnakeNextLocation();
+        int snakeX = nextLocation.getX();
+        int snakeY = nextLocation.getY();
+        if(!snake.isGrowing()){
+            int tailX=snake.getLast().getX();
+            int tailY=snake.getLast().getY();
+            gameBoard.getFields()[tailX][tailY]= new EmptyField(tailX,tailY);
         }
-
-        for(int i=0;i<snake.getLength();i++) {
-
-            if(i==0) {
-                if(snake.getOrientation()==Orientation.UP) {
-                    gameBoard.move(snake.get(i).getX(), snake.get(i).getY(), snake.get(i).getX(), snake.get(i).getY() + 1);
-                }
-                if(snake.getOrientation()==Orientation.DOWN) {
-                    gameBoard.move(snake.get(i).getX(), snake.get(i).getY(), snake.get(i).getX(), snake.get(i).getY() - 1);
-                }
-                if(snake.getOrientation()==Orientation.LEFT) {
-                    gameBoard.move(snake.get(i).getX(), snake.get(i).getY(), snake.get(i).getX()+1, snake.get(i).getY());
-                }
-                if(snake.getOrientation()==Orientation.RIGHT) {
-                    gameBoard.move(snake.get(i).getX(), snake.get(i).getY(), snake.get(i).getX()-1, snake.get(i).getY() + 1);
-                }
-            }
-            else {
-                gameBoard.move(snake.get(i).getX(), snake.get(i).getY(), snakeX.get(i-1), snakeY.get(i-1));
-
+        SnakeBodyPart snakeBodyPart = new SnakeBodyPart(snakeX,snakeY);
+        snake.move(snakeBodyPart);
+        gameBoard.getFields()[snakeBodyPart.getX()][snakeBodyPart.getY()]=snakeBodyPart;
             }
 
-        }
-
-
-    }
 
     public void generateUpgrade(PowerUp upgrade) {
         Random generator = new Random();
         int x = generator.nextInt(gameBoard.getSizeX());
         int y = generator.nextInt(gameBoard.getSizeY());
+        upgrade.setCoordinates(x,y);
         if (gameBoard.get(x, y).getClass() == EmptyField.class) {
-            gameBoard.set(x, y, upgrade);
+            gameBoard.getFields()[x][y]=upgrade;
         } else {
             generateUpgrade(upgrade);
         }
@@ -66,12 +47,15 @@ public class Game {
     public void gameLoop() throws InterruptedException {
         generateUpgrade(new GrowUp());
         Display.displayBoard(gameBoard);
+        Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         while (true) {
-            if (gameBoard.getSnake().nextField().getClass() == GrowUp.class) {
+            if (nextFieldType == GrowUp.class) {
                 points++;
                 generateUpgrade(new GrowUp());
                 gameBoard.getSnake().setGrowing(true);
-            } else if (gameBoard.getSnake().nextField().getClass() == BlockedField.class || gameBoard.getSnake().nextField().getClass() == SnakeBodyPart.class) {
+            } else if (nextFieldType == BlockedField.class ||nextFieldType == SnakeBodyPart.class) {
+                System.out.println(gameBoard.getSnakeNextLocation().getX());
+                System.out.println(gameBoard.getSnakeNextLocation().getY());
                 break;
             }
             

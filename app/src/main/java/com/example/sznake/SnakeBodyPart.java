@@ -1,5 +1,12 @@
 package com.example.sznake;
 
 public class SnakeBodyPart extends GameField {
-    SnakeBodyPart nextBodyPart;
+    public SnakeBodyPart(int x, int y) {
+        super(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "o";
+    }
 }
