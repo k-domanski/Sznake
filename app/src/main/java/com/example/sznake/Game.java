@@ -1,18 +1,33 @@
 package com.example.sznake;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.view.SurfaceHolder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Game {
 
+
+
     private GameBoard gameBoard;
     int points = 0;
+    private boolean isDead;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
     }
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
 
     public void moveSnake() {
         Snake snake = gameBoard.getSnake();
@@ -77,5 +92,32 @@ public class Game {
 
     }
 
+    public void update() {
+        Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
+        if (nextFieldType == GrowUp.class) {
+            points++;
+            generateUpgrade(new GrowUp());
+            gameBoard.getSnake().setGrowing(true);
+        } else if (nextFieldType == BlockedField.class ||nextFieldType == SnakeBodyPart.class) {
+            isDead = true;
+        }
+
+        moveSnake();
+    }
+
+    public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
+
+//        canvas = surfaceHolder.lockCanvas();
+        canvas.drawColor(Color.argb(255,26,128, 182));
+
+        for (GameField[] rows : gameBoard.getFields()) {
+            for( GameField field : rows) {
+                field.draw(canvas, surfaceHolder, paint, blockSize);
+            }
+
+        }
+
+//        surfaceHolder.unlockCanvasAndPost(canvas);
+    }
 
 }
