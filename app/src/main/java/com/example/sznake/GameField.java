@@ -1,5 +1,9 @@
 package com.example.sznake;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.view.SurfaceHolder;
+
 public class GameField {
     protected int X;
     protected int Y;
@@ -26,5 +30,7 @@ public class GameField {
         return Y;
     }
 
+    public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
 
+    }
 }
