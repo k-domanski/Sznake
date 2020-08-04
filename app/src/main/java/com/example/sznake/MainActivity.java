@@ -1,23 +1,30 @@
 package com.example.sznake;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 import com.example.sznake.sensors.Accelerometer;
+import com.example.sznake.sensors.Light;
 import com.example.sznake.sensors.SensorBase;
 import com.example.sznake.sensors.Proximity;
+
 
 public class MainActivity extends AppCompatActivity {
 
 
     private Accelerometer accelerometer;
     private Proximity proximity;
+    private Light light;
     private boolean isToogled = false;
-
+    private int currentScreenBrightness;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if(!Settings.System.canWrite(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            this.startActivity(intent);
+        }
+
+        try {
+            currentScreenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        light = new Light(this);
+        light.setListener(new SensorBase.Listener() {
+            @Override
+            public void onTranslation(float valX, float valY) {
+                if (valX > 1000) {
+                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
+                }
+                else {
+                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, currentScreenBrightness);
+                }
+            }
+        });
     }
 
     @Override
@@ -74,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 //        accelerometer.register();
         proximity.register();
+        light.register();
     }
 
     @Override
@@ -81,5 +112,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         accelerometer.unregister();
         proximity.unregister();
+        light.unregister();
     }
 }
