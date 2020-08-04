@@ -8,9 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.sznake.sensors.Accelerometer;
 import com.example.sznake.sensors.Gyroscope;
-import com.example.sznake.sensors.MotionSensor;
+import com.example.sznake.sensors.SensorBase;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -53,7 +52,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         gyroscope = new Gyroscope(context);
-        gyroscope.setListener(new MotionSensor.Listener() {
+        gyroscope.setListener(new SensorBase.Listener() {
             @Override
             public void onTranslation(float valX, float valY) {
                 if(valY > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.DOWN)) {

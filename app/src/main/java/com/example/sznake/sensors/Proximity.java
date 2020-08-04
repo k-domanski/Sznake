@@ -6,14 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class Accelerometer extends SensorBase {
+public class Proximity extends SensorBase {
 
-
-
-    public Accelerometer(Context context) {
-
+    public Proximity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -27,8 +24,10 @@ public class Accelerometer extends SensorBase {
 
             }
         };
+    }
 
+    public void register() {
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
 }
-

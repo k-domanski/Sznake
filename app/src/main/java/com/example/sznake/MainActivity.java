@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.sznake.sensors.Accelerometer;
+import com.example.sznake.sensors.SensorBase;
+import com.example.sznake.sensors.Proximity;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private Accelerometer accelerometer;
+    private Proximity proximity;
+    private boolean isToogled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +43,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        proximity = new Proximity(this);
+        proximity.setListener(new SensorBase.Listener() {
+            @Override
+            public void onTranslation(float valX, float valY) {
+
+                if (valX < proximity.getSensor().getMaximumRange()) {
+                    if(isToogled == false) {
+                        isToogled = true;
+                    }
+                    else {
+                        isToogled = false;
+                    }
+
+                }
+
+                if(isToogled) {
+                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                }
+                else {
+                    getWindow().getDecorView().setBackgroundColor(Color.RED);
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        accelerometer.register();
+//        accelerometer.register();
+        proximity.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         accelerometer.unregister();
+        proximity.unregister();
     }
 }

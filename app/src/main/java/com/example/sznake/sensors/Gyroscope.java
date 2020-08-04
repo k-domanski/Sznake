@@ -6,7 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class Gyroscope extends MotionSensor {
+public class Gyroscope extends SensorBase {
 
     public Gyroscope(Context context) {
 
