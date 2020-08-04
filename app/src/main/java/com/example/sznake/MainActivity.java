@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
-            public void onTranslation(float transX, float transY, float transZ) {
+            public void onTranslation(float transX, float transY) {
                 if(transX > 1.0f) {
                     getWindow().getDecorView().setBackgroundColor(Color.RED);
                 }
