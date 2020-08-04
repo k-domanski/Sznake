@@ -4,7 +4,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public abstract class MotionSensor {
+public abstract class SensorBase {
     protected SensorManager sensorManager;
     protected Sensor sensor;
     protected SensorEventListener sensorEventListener;
@@ -17,6 +17,10 @@ public abstract class MotionSensor {
 
     public void setListener(Listener listener) {
         this.listener = listener;
+    }
+
+    public Sensor getSensor() {
+        return sensor;
     }
 
     public void register() {

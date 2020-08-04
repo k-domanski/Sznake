@@ -4,6 +4,7 @@
 
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
     <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true"/>
+    <uses-feature android:name="android.hardware.sensor.proximity" android:required="true"/>
 
     <application
         android:allowBackup="true"
