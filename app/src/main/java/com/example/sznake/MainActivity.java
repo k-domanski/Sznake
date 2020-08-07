@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Accelerometer accelerometer;
     private Light light;
     private int currentScreenBrightness;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         if(!Settings.System.canWrite(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);

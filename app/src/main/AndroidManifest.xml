@@ -7,6 +7,7 @@
     <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true"/>
     <uses-feature android:name="android.hardware.sensor.proximity" android:required="true"/>
     <uses-feature android:name="android.hardware.sensor.light" android:required="true"/>
+    <uses-feature android:name="android.hardware.sensor.compass" android:required="true"/>
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
