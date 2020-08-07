@@ -83,40 +83,6 @@ public class Game {
         }
     }
 
-
-    public void gameLoop() throws InterruptedException {
-        Random generator = new Random();
-        generateUpgrade(new GrowUp());
-        Display.displayBoard(gameBoard);
-        while (true) {
-            Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
-            int x = generator.nextInt(2);
-          /*  if(x==0){
-                gameBoard.getSnake().setOrientation(Orientation.LEFT);
-            }
-            else {
-                gameBoard.getSnake().setOrientation(Orientation.UP);
-            } */
-            if (nextFieldType == GrowUp.class) {
-                points++;
-                generateUpgrade(new GrowUp());
-                gameBoard.getSnake().setGrowing(true);
-            } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeBodyPart.class) {
-                System.out.println(gameBoard.getSnakeNextLocation().getX());
-                System.out.println(gameBoard.getSnakeNextLocation().getY());
-                break;
-            }
-
-            moveSnake();
-
-            Display.displayBoard(gameBoard);
-            System.out.println();
-            Thread.sleep(1000);
-        }
-        System.out.println(points);
-
-    }
-
     public void update() {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         if (nextFieldType == GrowUp.class) {
@@ -138,7 +104,6 @@ public class Game {
             for (GameField field : rows) {
                 field.draw(canvas, surfaceHolder, paint, blockSize);
             }
-
         }
     }
 

@@ -18,12 +18,8 @@ public class SnakeBodyPart extends GameField {
     @Override
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
 
-//        if (surfaceHolder.getSurface().isValid()) {
-//            canvas = surfaceHolder.lockCanvas();
             paint.setColor(Color.argb(255,255,255,255));
-            canvas.drawRect(getX() * blockSize, (getY() * blockSize), (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
-//            surfaceHolder.unlockCanvasAndPost(canvas);
-//        }
-
+            canvas.drawRect(getX() * blockSize, (getY() * blockSize),
+                    (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
     }
 }

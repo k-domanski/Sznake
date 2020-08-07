@@ -17,8 +17,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying;
 
-    private Context con;
-
     private long nextFrameTime;
     private final long MILLIS_PER_SECOND = 1000;
     private final long FPS = 10;
@@ -44,7 +42,6 @@ public class GameView extends SurfaceView implements Runnable {
     public GameView(Context context, Point size) {
         super(context);
 
-        con = context;
         screenX = size.x;
         screenY = size.y;
 
