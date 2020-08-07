@@ -15,6 +15,7 @@ public class Game {
     private GameBoard gameBoard;
     int points = 0;
     private boolean isDead;
+    DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
@@ -57,23 +58,26 @@ public class Game {
 
     }
 
-    public void createBorder(int borderType) {
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+        m_difficultyLevel = difficultyLevel;
+    }
+
+    public void createBorder() {
         int sizeX = gameBoard.getSizeX();
         int sizeY = gameBoard.getSizeY();
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                if (borderType == 1) {
-                    if (i == 0 || j == 0 || i == sizeX - 1 || j == sizeY - 1) {
-                        BlockedField blockedField = new BlockedField();
-                        blockedField.setCoordinates(i, j);
-                        gameBoard.getFields()[i][j] = blockedField;
-                    }
-                } else if (borderType == 2) {
-                    if ((i == 0 || j == 0 || i == sizeX - 1 || j == sizeY - 1) && (i > (sizeX / 2) + 5 || i < (sizeX / 2) - 5) && (j > (sizeY / 2) + 5 || j < (sizeY / 2) - 5)) {
-                        BlockedField blockedField = new BlockedField();
-                        blockedField.setCoordinates(i, j);
-                        gameBoard.getFields()[i][j] = blockedField;
-                    }
+        int x;
+        int y;
+        for (GameField[] fields : gameBoard.getFields())
+        {
+            for (GameField field : fields)
+            {
+                x = field.X;
+                y = field.Y;
+                boolean isEdge = (x == 0 || y == 0 || x == sizeX - 1 || y == sizeY - 1);
+                boolean isCorner = !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5) && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
+                if (isEdge && (m_difficultyLevel == DifficultyLevel.MEDIUM || (m_difficultyLevel == DifficultyLevel.EASY && !isCorner)))
+                {
+                    gameBoard.setBlocked(x, y);
                 }
             }
         }
