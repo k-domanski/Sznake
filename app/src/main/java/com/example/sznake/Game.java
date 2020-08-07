@@ -128,7 +128,6 @@ public class Game {
 
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
 
-//        canvas = surfaceHolder.lockCanvas();
         canvas.drawColor(Color.argb(255, 26, 128, 182));
 
         for (GameField[] rows : gameBoard.getFields()) {
@@ -137,8 +136,6 @@ public class Game {
             }
 
         }
-
-//        surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
 }

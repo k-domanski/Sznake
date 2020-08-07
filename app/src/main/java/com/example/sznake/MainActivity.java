@@ -13,16 +13,13 @@ import android.view.View;
 import com.example.sznake.sensors.Accelerometer;
 import com.example.sznake.sensors.Light;
 import com.example.sznake.sensors.SensorBase;
-import com.example.sznake.sensors.Proximity;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
     private Accelerometer accelerometer;
-    private Proximity proximity;
     private Light light;
-    private boolean isToogled = false;
     private int currentScreenBrightness;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -51,29 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        proximity = new Proximity(this);
-        proximity.setListener(new SensorBase.Listener() {
-            @Override
-            public void onTranslation(float valX, float valY) {
 
-                if (valX < proximity.getSensor().getMaximumRange()) {
-                    if(isToogled == false) {
-                        isToogled = true;
-                    }
-                    else {
-                        isToogled = false;
-                    }
-
-                }
-
-                if(isToogled) {
-                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
-                }
-                else {
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
-                }
-            }
-        });
 
         if(!Settings.System.canWrite(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
@@ -102,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        accelerometer.register();
-        proximity.register();
+        accelerometer.register();
         light.register();
     }
 
@@ -111,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         accelerometer.unregister();
-        proximity.unregister();
         light.unregister();
     }
 }
