@@ -23,11 +23,9 @@ public class GrowUp extends PowerUp {
 
     @Override
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
-//        if (surfaceHolder.getSurface().isValid()) {
-//            canvas = surfaceHolder.lockCanvas();
-            paint.setColor(Color.argb(255,255,0,0));
-            canvas.drawRect(getX() * blockSize, (getY() * blockSize), (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
-//            surfaceHolder.unlockCanvasAndPost(canvas);
-//        }
+
+        paint.setColor(Color.argb(255,255,0,0));
+        canvas.drawRect(getX() * blockSize, (getY() * blockSize),
+                (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
     }
 }
