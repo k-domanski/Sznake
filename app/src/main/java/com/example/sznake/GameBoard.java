@@ -83,4 +83,9 @@ public class GameBoard {
     public int getSizeY() {
         return sizeY;
     }
+
+    public void setBlocked(int x, int y)
+    {
+        fields[x][y] = new BlockedField(x, y);
+    }
 }
