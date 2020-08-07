@@ -75,7 +75,7 @@ public class Game {
                 y = field.Y;
                 boolean isEdge = (x == 0 || y == 0 || x == sizeX - 1 || y == sizeY - 1);
                 boolean isCorner = !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5) && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
-                if (isEdge && (m_difficultyLevel == DifficultyLevel.MEDIUM || (m_difficultyLevel == DifficultyLevel.EASY && !isCorner)))
+                if (isEdge && (m_difficultyLevel == DifficultyLevel.HARD || (m_difficultyLevel == DifficultyLevel.MEDIUM && !isCorner)))
                 {
                     gameBoard.setBlocked(x, y);
                 }
