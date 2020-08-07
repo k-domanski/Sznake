@@ -8,6 +8,12 @@ import android.view.SurfaceHolder;
 import androidx.annotation.NonNull;
 
 public class BlockedField extends GameField {
+
+    public BlockedField(int x, int y)
+    {
+        super(x, y);
+    }
+
     @NonNull
     @Override
     public String toString() {
