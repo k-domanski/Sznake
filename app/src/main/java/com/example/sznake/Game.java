@@ -77,7 +77,7 @@ public class Game {
                 boolean isCorner = !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5) && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
                 if (isEdge && (m_difficultyLevel == DifficultyLevel.MEDIUM || (m_difficultyLevel == DifficultyLevel.EASY && !isCorner)))
                 {
-                    gameBoard.getFields()[x][y] = new BlockedField(x, y);
+                    gameBoard.setBlocked(x, y);
                 }
             }
         }
