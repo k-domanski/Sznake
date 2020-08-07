@@ -2,6 +2,7 @@ package com.example.sznake;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.sznake.sensors.Gyroscope;
+import com.example.sznake.sensors.Proximity;
 import com.example.sznake.sensors.SensorBase;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -37,6 +39,8 @@ public class GameView extends SurfaceView implements Runnable {
 
 //    private Accelerometer accelerometer;
     private Gyroscope gyroscope;
+    private Proximity proximity;
+    private boolean isToogled = false;
     private final float SENSOR_TRESHOLD = 3.0f;
     public GameView(Context context, Point size) {
         super(context);
@@ -55,18 +59,20 @@ public class GameView extends SurfaceView implements Runnable {
         gyroscope.setListener(new SensorBase.Listener() {
             @Override
             public void onTranslation(float valX, float valY) {
-                if(valY > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.DOWN)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.UP);
-                }
-                else if(valY < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.UP)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
-                }
-                else if(valX > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.LEFT)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
-                }
-                else if(valX < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.RIGHT)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
-                }
+                 if(!isToogled) {
+                    if(valY > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.DOWN)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.UP);
+                    }
+                    else if(valY < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.UP)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
+                    }
+                    else if(valX > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.LEFT)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
+                    }
+                    else if(valX < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.RIGHT)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
+                    }
+                 }
             }
         });
 //        accelerometer = new Accelerometer(context);
@@ -87,7 +93,17 @@ public class GameView extends SurfaceView implements Runnable {
 //                }
 //            }
 //        });
+        proximity = new Proximity(context);
+        proximity.setListener(new SensorBase.Listener() {
+            @Override
+            public void onTranslation(float valX, float valY) {
 
+                if (valX < proximity.getSensor().getMaximumRange()) {
+                    isToogled = isToogled == false;
+
+                }
+            }
+        });
         newGame();
 
     }
@@ -97,8 +113,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
 
-            if (isUpdateRequired()) {
-
+            if (isUpdateRequired() && !isToogled) {
                 game.update();
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
@@ -115,6 +130,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void resume() {
 //        accelerometer.register();
         gyroscope.register();
+        proximity.register();
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
@@ -124,6 +140,7 @@ public class GameView extends SurfaceView implements Runnable {
         try {
 //            accelerometer.unregister();
             gyroscope.unregister();
+            proximity.unregister();
             isPlaying = false;
             thread.join();
         } catch (InterruptedException e) {
@@ -144,7 +161,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void newGame() {
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 2);
         game.generateUpgrade(new GrowUp());
-        game.createBorder(2);
+        game.createBorder(0);
         nextFrameTime = System.currentTimeMillis();
     }
 
@@ -153,25 +170,27 @@ public class GameView extends SurfaceView implements Runnable {
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
-                    break;
+                if(!isToogled) {
+                    if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
+                        break;
+                    } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
+                        break;
+                    } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
+                        break;
+                    } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
+                        game.getGameBoard().getSnake().setOrientation(Orientation.UP);
+                        break;
                     }
-                else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
-                    break;
-                }
-                else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
-                    break;
-                }
-                else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                    game.getGameBoard().getSnake().setOrientation(Orientation.UP);
-                    break;
                 }
         }
 
 
         return true;
+    }
+
+    public void onToogle() {
     }
 }
