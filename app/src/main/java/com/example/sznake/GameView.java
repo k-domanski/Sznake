@@ -144,7 +144,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void newGame() {
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 2);
         game.generateUpgrade(new GrowUp());
-        game.createBorder(2);
+        game.setDifficultyLevel(DifficultyLevel.EASY);
+        game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }
 
