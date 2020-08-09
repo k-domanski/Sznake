@@ -15,7 +15,7 @@ public class Light extends SensorBase {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 if (listener != null) {
-                    listener.onTranslation(event.values[0], event.values[1]);
+                    listener.onTranslation(event.values[0], 0);
                 }
             }
 
