@@ -15,8 +15,8 @@ public class Game {
     private GameBoard gameBoard;
     private int points = 0;
     private boolean isDead;
-    private int upgradeColor = 0xFFFF0000;
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
+    private GrowUp upgrade = new GrowUp();
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
@@ -46,8 +46,7 @@ public class Game {
     }
 
 
-    public void generateUpgrade(PowerUp upgrade) {
-        upgrade.setColor(upgradeColor);
+    public void generateUpgrade() {
         Random generator = new Random();
         int x = generator.nextInt(gameBoard.getSizeX());
         int y = generator.nextInt(gameBoard.getSizeY());
@@ -55,9 +54,8 @@ public class Game {
         if (gameBoard.get(x, y).getClass() == EmptyField.class) {
             gameBoard.getFields()[x][y] = upgrade;
         } else {
-            generateUpgrade(upgrade);
+            generateUpgrade();
         }
-
     }
 
     public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
@@ -87,15 +85,14 @@ public class Game {
 
     public void update() {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
+        moveSnake();
         if (nextFieldType == GrowUp.class) {
             points++;
-            generateUpgrade(new GrowUp());
             gameBoard.getSnake().setGrowing(true);
+            generateUpgrade();
         } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeBodyPart.class) {
             isDead = true;
         }
-
-        moveSnake();
     }
 
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
@@ -115,6 +112,6 @@ public class Game {
 
     public void setUpgradeColor(int color)
     {
-        upgradeColor = color;
+        upgrade.setColor(color);
     }
 }
