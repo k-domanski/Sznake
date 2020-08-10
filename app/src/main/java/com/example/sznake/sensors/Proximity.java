@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 public class Proximity extends SensorBase {
 
     public Proximity(Context context) {
-        super(context, Sensor.TYPE_PROXIMITY);
+        super(context, Sensor.TYPE_PROXIMITY, SensorManager.SENSOR_DELAY_NORMAL);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -24,9 +24,4 @@ public class Proximity extends SensorBase {
             }
         };
     }
-
-    public void register() {
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
 }

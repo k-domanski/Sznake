@@ -8,7 +8,7 @@ import android.hardware.SensorManager;
 
 public class Magnetometer extends SensorBase {
     public Magnetometer(Context context) {
-        super(context, Sensor.TYPE_MAGNETIC_FIELD);
+        super(context, Sensor.TYPE_MAGNETIC_FIELD, SensorManager.SENSOR_DELAY_NORMAL);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -20,9 +20,5 @@ public class Magnetometer extends SensorBase {
 
             }
         };
-    }
-
-    public void register() {
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 }

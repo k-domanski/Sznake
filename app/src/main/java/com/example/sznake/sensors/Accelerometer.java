@@ -11,7 +11,7 @@ public class Accelerometer extends SensorBase {
 
 
     public Accelerometer(Context context) {
-        super(context, Sensor.TYPE_LINEAR_ACCELERATION);
+        super(context, Sensor.TYPE_LINEAR_ACCELERATION, SensorManager.SENSOR_DELAY_GAME);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
