@@ -15,6 +15,7 @@ public class Game {
     private GameBoard gameBoard;
     private int points = 0;
     private boolean isDead;
+    private int upgradeColor = 0xFFFF0000;
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
@@ -46,6 +47,7 @@ public class Game {
 
 
     public void generateUpgrade(PowerUp upgrade) {
+        upgrade.setColor(upgradeColor);
         Random generator = new Random();
         int x = generator.nextInt(gameBoard.getSizeX());
         int y = generator.nextInt(gameBoard.getSizeY());
@@ -109,5 +111,10 @@ public class Game {
 
     public int getPoints() {
         return points;
+    }
+
+    public void setUpgradeColor(int color)
+    {
+        upgradeColor = color;
     }
 }

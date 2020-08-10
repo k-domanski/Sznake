@@ -57,6 +57,4 @@ public class Snake {
     public void setGrowing(boolean growing) {
         isGrowing = growing;
     }
-
-
 }

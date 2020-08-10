@@ -2,6 +2,7 @@ package com.example.sznake.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
@@ -16,20 +17,17 @@ public abstract class SensorBase {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(sensorType);
         m_sensorDelay = sensorDelay;
-    }
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                onTranslation(event.values);
+            }
 
-    public interface Listener {
-        void onTranslation(float valX, float valY);
-    }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    protected Listener listener;
-
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
-    public Sensor getSensor() {
-        return sensor;
+            }
+        };
     }
 
     public void register() {
@@ -39,4 +37,6 @@ public abstract class SensorBase {
     public void unregister() {
         sensorManager.unregisterListener(sensorEventListener);
     }
+
+    public abstract void onTranslation(float[] sensorEventValues);
 }

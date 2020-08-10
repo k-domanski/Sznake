@@ -5,23 +5,26 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.provider.Settings;
 
 public class Light extends SensorBase {
 
-    public Light(Context context) {
+    private int currentScreenBrightness;
+
+    public Light(Context context) throws Settings.SettingNotFoundException {
         super(context, Sensor.TYPE_LIGHT, SensorManager.SENSOR_DELAY_GAME);
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                if (listener != null) {
-                    listener.onTranslation(event.values[0], 0);
-                }
-            }
+        currentScreenBrightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+    }
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    @Override
+    public void onTranslation(float[] sensorEventValues) {
+        float valX = sensorEventValues[0];
+        if (valX > 1000) {
+            currentScreenBrightness = 255;
+        }
+    }
 
-            }
-        };
+    public int getCurrentScreenBrightness() {
+        return currentScreenBrightness;
     }
 }
