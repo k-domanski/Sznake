@@ -9,9 +9,7 @@ import android.hardware.SensorManager;
 public class Gyroscope extends SensorBase {
 
     public Gyroscope(Context context) {
-
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        super(context, Sensor.TYPE_GYROSCOPE);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
