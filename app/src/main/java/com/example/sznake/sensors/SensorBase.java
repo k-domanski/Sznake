@@ -9,11 +9,13 @@ public abstract class SensorBase {
     protected SensorManager sensorManager;
     protected Sensor sensor;
     protected SensorEventListener sensorEventListener;
+    int m_sensorDelay;
 
-    protected SensorBase(Context context, int sensorType)
+    protected SensorBase(Context context, int sensorType, int sensorDelay)
     {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(sensorType);
+        m_sensorDelay = sensorDelay;
     }
 
     public interface Listener {
@@ -31,7 +33,7 @@ public abstract class SensorBase {
     }
 
     public void register() {
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(sensorEventListener, sensor, m_sensorDelay);
     }
 
     public void unregister() {

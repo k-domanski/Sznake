@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 public class Light extends SensorBase {
 
     public Light(Context context) {
-        super(context, Sensor.TYPE_LIGHT);
+        super(context, Sensor.TYPE_LIGHT, SensorManager.SENSOR_DELAY_GAME);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
