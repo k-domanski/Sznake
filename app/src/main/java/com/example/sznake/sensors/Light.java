@@ -9,8 +9,7 @@ import android.hardware.SensorManager;
 public class Light extends SensorBase {
 
     public Light(Context context) {
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        super(context, Sensor.TYPE_LIGHT);
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
