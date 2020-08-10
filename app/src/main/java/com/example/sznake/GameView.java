@@ -2,8 +2,10 @@ package com.example.sznake;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -87,7 +89,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-
+        String points;
         while (isPlaying) {
 
             if (isUpdateRequired() && !isPaused) {
@@ -96,6 +98,15 @@ public class GameView extends SurfaceView implements Runnable {
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
+
+                    points = String.valueOf(game.getPoints());
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                    paint.setColor(Color.BLACK);
+                    paint.setAlpha(60);
+                    paint.setTextSize(100);
+
+                    canvas.drawText(points, 20, 100, paint);
+
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
 

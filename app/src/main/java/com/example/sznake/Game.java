@@ -13,9 +13,9 @@ public class Game {
 
 
     private GameBoard gameBoard;
-    int points = 0;
+    private int points = 0;
     private boolean isDead;
-    DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
+    private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
@@ -107,4 +107,7 @@ public class Game {
         }
     }
 
+    public int getPoints() {
+        return points;
+    }
 }
