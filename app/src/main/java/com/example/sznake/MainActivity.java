@@ -17,11 +17,6 @@ import com.example.sznake.sensors.SensorBase;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private Accelerometer accelerometer;
-    private Light light;
-    private int currentScreenBrightness;
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,55 +30,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        accelerometer = new Accelerometer(this);
-
-        accelerometer.setListener(new Accelerometer.Listener() {
-            @Override
-            public void onTranslation(float transX, float transY) {
-                if(transX > 1.0f) {
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
-                }
-                else if(transX < -1.0f) {
-                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
-                }
-            }
-        });
-
         if(!Settings.System.canWrite(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             this.startActivity(intent);
         }
-
-        try {
-            currentScreenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
-        }
-        light = new Light(this);
-        light.setListener(new SensorBase.Listener() {
-            @Override
-            public void onTranslation(float valX, float valY) {
-                if (valX > 1000) {
-                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
-                }
-                else {
-                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, currentScreenBrightness);
-                }
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        accelerometer.register();
-        light.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        accelerometer.unregister();
-        light.unregister();
     }
 }

@@ -6,11 +6,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.sznake.sensors.Accelerometer;
 import com.example.sznake.sensors.Gyroscope;
+import com.example.sznake.sensors.Light;
 import com.example.sznake.sensors.Proximity;
 import com.example.sznake.sensors.SensorBase;
 
@@ -18,6 +21,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
+
+    private Accelerometer accelerometer;
+    private Light light;
 
     private long nextFrameTime;
     private final long MILLIS_PER_SECOND = 1000;
@@ -37,7 +43,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
 
     private Gyroscope gyroscope;
-    private final float SENSOR_TRESHOLD = 3.0f;
     //PROXIMITY
     private Proximity proximity;
     private boolean isPaused;
@@ -54,34 +59,17 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         gyroscope = new Gyroscope(context);
-        gyroscope.setListener(new SensorBase.Listener() {
-            @Override
-            public void onTranslation(float valX, float valY) {
-                if(!isPaused) {
-                    if (valY > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.DOWN)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.UP);
-                    } else if (valY < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.UP)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
-                    } else if (valX > SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.LEFT)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
-                    } else if (valX < -SENSOR_TRESHOLD && (game.getGameBoard().getSnake().getOrientation() != Orientation.RIGHT)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
-                    }
-                }
-            }
-        });
 
         //PROXIMITY
         proximity = new Proximity(context);
-        proximity.setListener(new SensorBase.Listener() {
-            @Override
-            public void onTranslation(float valX, float valY) {
-                if(valX < proximity.getSensor().getMaximumRange()) {
-                    isPaused = isPaused == false;
-                }
-            }
-        });
 
+        try {
+            light = new Light(context);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        accelerometer = new Accelerometer(context);
 
         newGame();
 
@@ -91,10 +79,12 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
         String points;
         while (isPlaying) {
-
+            isPaused = proximity.isPaused();
             if (isUpdateRequired() && !isPaused) {
-
                 game.update();
+                game.setUpgradeColor(accelerometer.getColor());
+                game.getGameBoard().getSnake().setOrientation(gyroscope.getOrientation());
+                android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, light.getCurrentScreenBrightness());
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
@@ -119,6 +109,8 @@ public class GameView extends SurfaceView implements Runnable {
     public void resume() {
         gyroscope.register();
         proximity.register();
+        light.register();
+        accelerometer.register();
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
@@ -128,6 +120,8 @@ public class GameView extends SurfaceView implements Runnable {
         try {
             gyroscope.unregister();
             proximity.unregister();
+            light.unregister();
+            accelerometer.unregister();
             isPlaying = false;
             thread.join();
         } catch (InterruptedException e) {
@@ -160,16 +154,16 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 if(!isPaused) {
                     if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.RIGHT);
+                        gyroscope.setOrientation(Orientation.RIGHT);
                         break;
                     } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.LEFT);
+                        gyroscope.setOrientation(Orientation.LEFT);
                         break;
                     } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.DOWN);
+                        gyroscope.setOrientation(Orientation.DOWN);
                         break;
                     } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                        game.getGameBoard().getSnake().setOrientation(Orientation.UP);
+                        gyroscope.setOrientation(Orientation.UP);
                         break;
                     }
                 }

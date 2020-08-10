@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
 public class SnakeBodyPart extends GameField {
+
     public SnakeBodyPart(int x, int y) {
         super(x, y);
     }
@@ -17,9 +18,10 @@ public class SnakeBodyPart extends GameField {
 
     @Override
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
-
-            paint.setColor(Color.argb(255,255,255,255));
-            canvas.drawRect(getX() * blockSize, (getY() * blockSize),
-                    (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
+        int color = Color.argb(255,255,255,255);
+        paint.setColor(color);
+        canvas.drawRect(getX() * blockSize, (getY() * blockSize),
+                (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
     }
+
 }
