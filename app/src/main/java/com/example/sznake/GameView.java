@@ -14,8 +14,8 @@ import android.view.SurfaceView;
 import com.example.sznake.sensors.Accelerometer;
 import com.example.sznake.sensors.Gyroscope;
 import com.example.sznake.sensors.Light;
+import com.example.sznake.sensors.Magnetometer;
 import com.example.sznake.sensors.Proximity;
-import com.example.sznake.sensors.SensorBase;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -24,6 +24,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Accelerometer accelerometer;
     private Light light;
+    private Magnetometer magnetometer;
 
     private long nextFrameTime;
     private final long MILLIS_PER_SECOND = 1000;
@@ -71,6 +72,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         accelerometer = new Accelerometer(context);
 
+        magnetometer = new Magnetometer(context, NUM_BLOCKS_WIDE, numBlocksHigh);
+
         newGame();
 
     }
@@ -84,11 +87,11 @@ public class GameView extends SurfaceView implements Runnable {
                 game.update();
                 game.setUpgradeColor(accelerometer.getColor());
                 game.getGameBoard().getSnake().setOrientation(gyroscope.getOrientation());
+                game.setUpgradePosition(magnetometer.getRandX(), magnetometer.getRandY());
                 android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, light.getCurrentScreenBrightness());
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
-
                     points = String.valueOf(game.getPoints());
                     paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                     paint.setColor(Color.BLACK);
@@ -111,6 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         proximity.register();
         light.register();
         accelerometer.register();
+        magnetometer.register();
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
@@ -122,6 +126,7 @@ public class GameView extends SurfaceView implements Runnable {
             proximity.unregister();
             light.unregister();
             accelerometer.unregister();
+            magnetometer.unregister();
             isPlaying = false;
             thread.join();
         } catch (InterruptedException e) {

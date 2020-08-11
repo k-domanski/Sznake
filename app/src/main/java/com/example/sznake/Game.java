@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Game {
@@ -17,6 +15,8 @@ public class Game {
     private boolean isDead;
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
     private GrowUp upgrade = new GrowUp();
+    int upgradeX;
+    int upgradeY;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
@@ -47,14 +47,16 @@ public class Game {
 
 
     public void generateUpgrade() {
-        Random generator = new Random();
-        int x = generator.nextInt(gameBoard.getSizeX());
-        int y = generator.nextInt(gameBoard.getSizeY());
-        upgrade.setCoordinates(x, y);
-        if (gameBoard.get(x, y).getClass() == EmptyField.class) {
-            gameBoard.getFields()[x][y] = upgrade;
-        } else {
+        if (gameBoard.get(upgradeX, upgradeY).getClass() != EmptyField.class) {
+            Random generator = new Random();
+            upgradeX = generator.nextInt(gameBoard.getSizeX());
+            upgradeY = generator.nextInt(gameBoard.getSizeY());
             generateUpgrade();
+        }
+        else
+        {
+            gameBoard.getFields()[upgradeX][upgradeY] = upgrade;
+            upgrade.setCoordinates(upgradeX, upgradeY);
         }
     }
 
@@ -113,5 +115,11 @@ public class Game {
     public void setUpgradeColor(int color)
     {
         upgrade.setColor(color);
+    }
+
+    public void setUpgradePosition(int newX, int newY)
+    {
+        upgradeX = newX;
+        upgradeY = newY;
     }
 }
