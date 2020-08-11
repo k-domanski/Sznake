@@ -14,12 +14,15 @@ public class Game {
     private int points = 0;
     private boolean isDead;
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
-    private GrowUp upgrade = new GrowUp();
-    int upgradeX;
-    int upgradeY;
+    private GrowUp upgrade;
+    private int upgradeX;
+    private int upgradeY;
 
     public Game(int sizeX, int sizeY, int snakeSize) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
+        upgradeX = (int) (Math.random() * gameBoard.getSizeX());
+        upgradeY = (int) (Math.random() * gameBoard.getSizeY());
+        upgrade = new GrowUp(upgradeX, upgradeY);
     }
 
     public GameBoard getGameBoard() {
