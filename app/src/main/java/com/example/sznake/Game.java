@@ -18,8 +18,8 @@ public class Game {
     private int upgradeX;
     private int upgradeY;
 
-    public Game(int sizeX, int sizeY, int snakeSize) {
-        gameBoard = new GameBoard(sizeX, sizeY, snakeSize);
+    public Game(int sizeX, int sizeY, int snakeSize, Orientation initialSnakeOrientation) {
+        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeOrientation);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
         upgrade = new GrowUp(upgradeX, upgradeY);

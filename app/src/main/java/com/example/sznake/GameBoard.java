@@ -10,10 +10,10 @@ public class GameBoard {
     private GameField[][] fields;
     private Snake snake;
 
-    public GameBoard(int sizeX, int sizeY, int snakeSize) {
+    public GameBoard(int sizeX, int sizeY, int snakeSize, Orientation initialSnakeOrientation) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        snake = new Snake(snakeSize,Orientation.UP,sizeX/2,sizeY/2);
+        snake = new Snake(snakeSize, initialSnakeOrientation,sizeX/2,sizeY/2);
         fields= new GameField[sizeX][sizeY];
 
         for(int i=0;i<sizeX;i++){
