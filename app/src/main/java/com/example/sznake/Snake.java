@@ -12,7 +12,18 @@ public class Snake {
     public Snake(int length, Orientation orientation, int X, int Y) {
         body = new ArrayList<>();
         for (int i = 0; i < length; i++) {
-            body.add(new SnakeBodyPart(X, Y + i));
+            if(orientation==Orientation.UP){
+                body.add(new SnakeBodyPart(X, Y+i ));
+            }
+            else if(orientation==Orientation.DOWN){
+                body.add(new SnakeBodyPart(X, Y-i ));
+            }
+            else if(orientation==Orientation.LEFT){
+                body.add(new SnakeBodyPart(X+i, Y ));
+            }
+            else if(orientation==Orientation.RIGHT){
+                body.add(new SnakeBodyPart(X-i, Y ));
+            }
         }
         this.orientation = orientation;
 
