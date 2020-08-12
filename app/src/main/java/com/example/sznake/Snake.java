@@ -1,10 +1,12 @@
 package com.example.sznake;
 
+import com.example.sznake.fields.SnakeField;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Snake {
-    private List<SnakeBodyPart> body;
+    private List<SnakeField> body;
     private Direction direction;
     private boolean isGrowing;
 
@@ -12,27 +14,27 @@ public class Snake {
         body = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             if(direction == Direction.UP){
-                body.add(new SnakeBodyPart(X, Y+i ));
+                body.add(new SnakeField(X, Y+i ));
             }
             else if(direction == Direction.DOWN){
-                body.add(new SnakeBodyPart(X, Y-i ));
+                body.add(new SnakeField(X, Y-i ));
             }
             else if(direction == Direction.LEFT){
-                body.add(new SnakeBodyPart(X+i, Y ));
+                body.add(new SnakeField(X+i, Y ));
             }
             else if(direction == Direction.RIGHT){
-                body.add(new SnakeBodyPart(X-i, Y ));
+                body.add(new SnakeField(X-i, Y ));
             }
         }
         this.direction = direction;
 
     }
 
-    public SnakeBodyPart get(int x) {
+    public SnakeField get(int x) {
         return body.get(x);
     }
 
-    public SnakeBodyPart getLast() {
+    public SnakeField getLast() {
         return body.get(body.size() - 1);
     }
 
@@ -50,9 +52,9 @@ public class Snake {
         this.direction = direction;
     }
 
-    public void move(SnakeBodyPart snakeBodyPart) {
+    public void move(SnakeField snakeField) {
 
-        body.add(0, snakeBodyPart);
+        body.add(0, snakeField);
         if (!isGrowing) {
             body.remove(body.size() - 1);
         }

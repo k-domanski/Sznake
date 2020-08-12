@@ -1,5 +1,9 @@
 package com.example.sznake;
 
+import com.example.sznake.fields.BlockedField;
+import com.example.sznake.fields.EmptyField;
+import com.example.sznake.fields.GameField;
+
 public class GameBoard {
     private int sizeX;
     private int sizeY;
