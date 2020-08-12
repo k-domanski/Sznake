@@ -81,13 +81,20 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         String points;
+        int qtecolor=Color.WHITE;
         while (isPlaying) {
             isPaused = proximity.isPaused();
             if (isUpdateRequired() && !isPaused) {
                 game.update();
                 game.setUpgradeColor(accelerometer.getColor());
-                game.getGameBoard().getSnake().setOrientation(gyroscope.getOrientation());
+                game.getGameBoard().getSnake().setDirection(gyroscope.getOrientation());
                 game.setUpgradePosition(magnetometer.getRandX(), magnetometer.getRandY());
+
+                //
+                if(game.isQTEActive()){
+                    game.checkQTE(accelerometer.getX_value(),accelerometer.getY_value());
+                }
+
                 android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, light.getCurrentScreenBrightness());
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
@@ -97,8 +104,20 @@ public class GameView extends SurfaceView implements Runnable {
                     paint.setColor(Color.BLACK);
                     paint.setAlpha(60);
                     paint.setTextSize(100);
-
                     canvas.drawText(points, 20, 100, paint);
+                    if(game.isQTEActive()){
+
+                        if(qtecolor ==Color.WHITE) {
+                            qtecolor=Color.RED;
+                        }
+                        else {
+                            qtecolor=Color.WHITE;
+                        }
+                        paint.setColor(qtecolor);
+                        paint.setAlpha(70);
+                        paint.setTextSize(500);
+                        canvas.drawText(game.getQte().getQTEDirection().toString(), screenX/2-100, screenY/2+100, paint);
+                    }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
@@ -146,12 +165,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void newGame() {
         //gyroscope.setOrientation(Orientation.UP);
-        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscope.getOrientation());
+        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 2, gyroscope.getOrientation());
         game.generateUpgrade();
         game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -159,17 +179,17 @@ public class GameView extends SurfaceView implements Runnable {
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 if(!isPaused) {
-                    if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                        gyroscope.setOrientation(Orientation.RIGHT);
+                    if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+                        gyroscope.setOrientation(Direction.RIGHT);
                         break;
-                    } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.DOWN || game.getGameBoard().getSnake().getOrientation() == Orientation.UP)) {
-                        gyroscope.setOrientation(Orientation.LEFT);
+                    } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+                        gyroscope.setOrientation(Direction.LEFT);
                         break;
-                    } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                        gyroscope.setOrientation(Orientation.DOWN);
+                    } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+                        gyroscope.setOrientation(Direction.DOWN);
                         break;
-                    } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getOrientation() == Orientation.RIGHT || game.getGameBoard().getSnake().getOrientation() == Orientation.LEFT)) {
-                        gyroscope.setOrientation(Orientation.UP);
+                    } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+                        gyroscope.setOrientation(Direction.UP);
                         break;
                     }
                 }

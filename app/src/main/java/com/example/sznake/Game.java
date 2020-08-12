@@ -10,19 +10,27 @@ import java.util.Random;
 public class Game {
 
 
+
     private GameBoard gameBoard;
     private int points = 0;
     private boolean isDead;
+    private boolean failedQTE;
+
+
+
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
     private GrowUp upgrade;
+    private QTE qte;
+    private int QTEMultiplier;
     private int upgradeX;
     private int upgradeY;
 
-    public Game(int sizeX, int sizeY, int snakeSize, Orientation initialSnakeOrientation) {
-        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeOrientation);
+    public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection) {
+        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
         upgrade = new GrowUp(upgradeX, upgradeY);
+        QTEMultiplier=1;
     }
 
     public GameBoard getGameBoard() {
@@ -98,6 +106,25 @@ public class Game {
         } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeBodyPart.class) {
             isDead = true;
         }
+        if(points!=0&&points%10==0&&!failedQTE&&qte==null){
+            qte=new QTE(3000);
+        }
+    }
+    public void checkQTE(int X,int Y){
+        if(qte==null){
+            return;
+        }
+        if(!qte.isQTEActive()){
+            qte=null;
+            failedQTE=true;
+            return;
+        }
+        if(qte.checkQTE(X, Y)){
+            addBonusPoints(10*QTEMultiplier-1);
+            QTEMultiplier++;
+            qte=null;
+
+        }
     }
 
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
@@ -124,5 +151,20 @@ public class Game {
     {
         upgradeX = newX;
         upgradeY = newY;
+    }
+
+    public void addBonusPoints(int amount){
+        points += amount;
+    }
+
+    public boolean isQTEActive(){
+        if(qte==null){
+            return false;
+        }
+        else return qte.isQTEActive();
+    }
+
+    public QTE getQte() {
+        return qte;
     }
 }
