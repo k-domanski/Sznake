@@ -1,19 +1,15 @@
 package com.example.sznake;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class GameBoard {
     private int sizeX;
     private int sizeY;
     private GameField[][] fields;
     private Snake snake;
 
-    public GameBoard(int sizeX, int sizeY, int snakeSize, Orientation initialSnakeOrientation) {
+    public GameBoard(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        snake = new Snake(snakeSize, initialSnakeOrientation,sizeX/2,sizeY/2);
+        snake = new Snake(snakeSize, initialSnakeDirection,sizeX/2,sizeY/2);
         fields= new GameField[sizeX][sizeY];
 
         for(int i=0;i<sizeX;i++){
@@ -47,22 +43,22 @@ public class GameBoard {
     public GameField getSnakeNextLocation(){
         int snakeX=snake.get(0).getX();
         int snakeY=snake.get(0).getY();
-        if(snake.getOrientation()==Orientation.UP) {
+        if(snake.getDirection()== Direction.UP) {
             if(snakeY==0){
                 snakeY=sizeY;
             }
             return fields[snakeX][snakeY-1];
         }
-        if(snake.getOrientation()==Orientation.DOWN) {
+        if(snake.getDirection()== Direction.DOWN) {
             return fields[snakeX][(snakeY+1)%sizeY];
         }
-        if(snake.getOrientation()==Orientation.LEFT) {
+        if(snake.getDirection()== Direction.LEFT) {
             if(snakeX==0){
                 snakeX=sizeX;
             }
             return fields[snakeX-1][snakeY];
         }
-        if(snake.getOrientation()==Orientation.RIGHT) {
+        if(snake.getDirection()== Direction.RIGHT) {
             return fields[(snakeX+1)%sizeX][snakeY];
         }
         return null;
