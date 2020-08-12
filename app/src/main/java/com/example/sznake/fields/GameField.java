@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-public class GameField {
+public abstract class GameField {
     protected int X;
     protected int Y;
     protected int m_color;
