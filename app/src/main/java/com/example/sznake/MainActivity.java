@@ -35,14 +35,4 @@ public class MainActivity extends AppCompatActivity {
             this.startActivity(intent);
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 }

@@ -19,7 +19,7 @@ public class Accelerometer extends SensorBase {
     public void onTranslation(float[] sensorEventValues) {
         float transX = sensorEventValues[0];
         if(transX > 1.0f) {
-            m_color = Color.YELLOW;
+            m_color = Color.RED;
         }
         else if(transX < -1.0f) {
             m_color = Color.GREEN;
