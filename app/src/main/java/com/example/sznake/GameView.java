@@ -145,8 +145,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void newGame() {
-        gyroscope.setOrientation(Orientation.UP);
-        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 2, gyroscope.getOrientation());
+        //gyroscope.setOrientation(Orientation.UP);
+        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscope.getOrientation());
         game.generateUpgrade();
         game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();
