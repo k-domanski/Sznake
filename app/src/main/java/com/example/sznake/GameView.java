@@ -87,7 +87,7 @@ public class GameView extends SurfaceView implements Runnable {
             if (isUpdateRequired() && !isPaused) {
                 game.update();
                 game.setUpgradeColor(accelerometer.getColor());
-                game.getGameBoard().getSnake().setDirection(gyroscope.getOrientation());
+                game.getGameBoard().getSnake().setDirection(gyroscope.getDirection());
                 game.setUpgradePosition(magnetometer.getRandX(), magnetometer.getRandY());
 
                 //
@@ -165,7 +165,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void newGame() {
         //gyroscope.setOrientation(Orientation.UP);
-        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 2, gyroscope.getOrientation());
+
+        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscope.getDirection());
         game.generateUpgrade();
         game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();

@@ -30,7 +30,8 @@ public class Gyroscope extends SensorBase {
         }
     }
 
-    public Direction getOrientation() {
+
+    public Direction getDirection() {
         return m_direction;
     }
 

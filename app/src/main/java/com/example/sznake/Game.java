@@ -5,6 +5,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
+import com.example.sznake.fields.BlockedField;
+import com.example.sznake.fields.EmptyField;
+import com.example.sznake.fields.GameField;
+import com.example.sznake.fields.GrowUpField;
+import com.example.sznake.fields.SnakeField;
+
 import java.util.Random;
 
 public class Game {
@@ -19,7 +25,7 @@ public class Game {
 
 
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
-    private GrowUp upgrade;
+    private GrowUpField upgrade;
     private QTE qte;
     private int QTEMultiplier;
     private int upgradeX;
@@ -29,7 +35,7 @@ public class Game {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
-        upgrade = new GrowUp(upgradeX, upgradeY);
+        upgrade = new GrowUpField(upgradeX, upgradeY);
         QTEMultiplier=1;
     }
 
@@ -51,9 +57,9 @@ public class Game {
             int tailY = snake.getLast().getY();
             gameBoard.getFields()[tailX][tailY] = new EmptyField(tailX, tailY);
         }
-        SnakeBodyPart snakeBodyPart = new SnakeBodyPart(snakeX, snakeY);
-        snake.move(snakeBodyPart);
-        gameBoard.getFields()[snakeBodyPart.getX()][snakeBodyPart.getY()] = snakeBodyPart;
+        SnakeField snakeField = new SnakeField(snakeX, snakeY);
+        snake.move(snakeField);
+        gameBoard.getFields()[snakeField.getX()][snakeField.getY()] = snakeField;
     }
 
 
@@ -84,8 +90,8 @@ public class Game {
         {
             for (GameField field : fields)
             {
-                x = field.X;
-                y = field.Y;
+                x = field.getX();
+                y = field.getY();
                 boolean isEdge = (x == 0 || y == 0 || x == sizeX - 1 || y == sizeY - 1);
                 boolean isCorner = !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5) && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
                 if (isEdge && (m_difficultyLevel == DifficultyLevel.HARD || (m_difficultyLevel == DifficultyLevel.MEDIUM && !isCorner)))
@@ -99,11 +105,11 @@ public class Game {
     public void update() {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         moveSnake();
-        if (nextFieldType == GrowUp.class) {
+        if (nextFieldType == GrowUpField.class) {
             points++;
             gameBoard.getSnake().setGrowing(true);
             generateUpgrade();
-        } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeBodyPart.class) {
+        } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeField.class) {
             isDead = true;
         }
         if(points!=0&&points%10==0&&!failedQTE&&qte==null){

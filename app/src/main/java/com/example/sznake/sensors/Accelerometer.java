@@ -23,7 +23,7 @@ public class Accelerometer extends SensorBase {
         float transX = sensorEventValues[0];
         float transY = sensorEventValues[1];
         if(transX > 1.0f) {
-            m_color = Color.YELLOW;
+            m_color = Color.RED;
             x_value=1;
         }
         else if(transX < -1.0f) {
