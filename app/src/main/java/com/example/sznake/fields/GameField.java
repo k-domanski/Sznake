@@ -1,19 +1,18 @@
-package com.example.sznake;
+package com.example.sznake.fields;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-public class GameField {
+public abstract class GameField {
     protected int X;
     protected int Y;
+    protected int m_color;
 
-    public GameField(int x, int y) {
+    public GameField(int x, int y, int color) {
         X = x;
         Y = y;
-    }
-
-    public GameField() {
+        m_color = color;
     }
 
     public void setCoordinates(int X, int Y) {
@@ -26,11 +25,17 @@ public class GameField {
     }
 
     public int getY() {
-
         return Y;
     }
 
     public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
+        paint.setColor(m_color);
+        canvas.drawRect(getX() * blockSize, (getY() * blockSize),
+                (getX() *blockSize) + blockSize, (getY() * blockSize) + blockSize, paint);
+    }
 
+    public void setColor(int color)
+    {
+        m_color = color;
     }
 }
