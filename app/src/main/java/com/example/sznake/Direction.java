@@ -1,5 +1,5 @@
 package com.example.sznake;
 
-public enum Orientation {
+public enum Direction {
     UP, DOWN, LEFT, RIGHT
 }

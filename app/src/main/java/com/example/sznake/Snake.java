@@ -1,31 +1,30 @@
 package com.example.sznake;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Snake {
     private List<SnakeBodyPart> body;
-    private Orientation orientation;
+    private Direction direction;
     private boolean isGrowing;
 
-    public Snake(int length, Orientation orientation, int X, int Y) {
+    public Snake(int length, Direction direction, int X, int Y) {
         body = new ArrayList<>();
         for (int i = 0; i < length; i++) {
-            if(orientation==Orientation.UP){
+            if(direction == Direction.UP){
                 body.add(new SnakeBodyPart(X, Y+i ));
             }
-            else if(orientation==Orientation.DOWN){
+            else if(direction == Direction.DOWN){
                 body.add(new SnakeBodyPart(X, Y-i ));
             }
-            else if(orientation==Orientation.LEFT){
+            else if(direction == Direction.LEFT){
                 body.add(new SnakeBodyPart(X+i, Y ));
             }
-            else if(orientation==Orientation.RIGHT){
+            else if(direction == Direction.RIGHT){
                 body.add(new SnakeBodyPart(X-i, Y ));
             }
         }
-        this.orientation = orientation;
+        this.direction = direction;
 
     }
 
@@ -43,12 +42,12 @@ public class Snake {
     }
 
 
-    public Orientation getOrientation() {
-        return orientation;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public void move(SnakeBodyPart snakeBodyPart) {
