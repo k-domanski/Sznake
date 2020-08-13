@@ -1,4 +1,4 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -6,13 +6,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public abstract class SensorBase {
+public abstract class SensorService {
     protected SensorManager sensorManager;
     protected Sensor sensor;
     protected SensorEventListener sensorEventListener;
     int m_sensorDelay;
 
-    protected SensorBase(Context context, int sensorType, int sensorDelay)
+    protected SensorService(Context context, int sensorType, int sensorDelay)
     {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(sensorType);

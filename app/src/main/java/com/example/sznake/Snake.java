@@ -1,6 +1,6 @@
 package com.example.sznake;
 
-import com.example.sznake.fields.SnakeField;
+import com.example.sznake.gameFields.SnakeField;
 
 import java.util.ArrayList;
 import java.util.List;

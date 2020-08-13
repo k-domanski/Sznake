@@ -1,20 +1,18 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class Accelerometer extends SensorBase {
+public class AccelerometerService extends SensorService {
 
     int m_color = Color.GREEN;
     int x_value;
     int y_value;
 
 
-    public Accelerometer(Context context) {
+    public AccelerometerService(Context context) {
         super(context, Sensor.TYPE_LINEAR_ACCELERATION, SensorManager.SENSOR_DELAY_GAME);
     }
 

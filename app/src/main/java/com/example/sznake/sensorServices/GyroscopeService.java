@@ -1,4 +1,4 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -6,11 +6,11 @@ import android.hardware.SensorManager;
 
 import com.example.sznake.Direction;
 
-public class Gyroscope extends SensorBase {
+public class GyroscopeService extends SensorService {
 
     private Direction m_direction = Direction.UP;
 
-    public Gyroscope(Context context) {
+    public GyroscopeService(Context context) {
         super(context, Sensor.TYPE_GYROSCOPE, SensorManager.SENSOR_DELAY_GAME);
     }
 

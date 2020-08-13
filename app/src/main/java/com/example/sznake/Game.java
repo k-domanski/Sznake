@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import com.example.sznake.fields.BlockedField;
-import com.example.sznake.fields.EmptyField;
-import com.example.sznake.fields.GameField;
-import com.example.sznake.fields.GrowUpField;
-import com.example.sznake.fields.SnakeField;
+import com.example.sznake.gameFields.BlockedField;
+import com.example.sznake.gameFields.EmptyField;
+import com.example.sznake.gameFields.GameField;
+import com.example.sznake.gameFields.GrowUpField;
+import com.example.sznake.gameFields.SnakeField;
 
 import java.util.Random;
 

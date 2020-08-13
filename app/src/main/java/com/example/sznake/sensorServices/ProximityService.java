@@ -1,16 +1,14 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class Proximity extends SensorBase {
+public class ProximityService extends SensorService {
 
     boolean isPaused;
 
-    public Proximity(Context context) {
+    public ProximityService(Context context) {
         super(context, Sensor.TYPE_PROXIMITY, SensorManager.SENSOR_DELAY_NORMAL);
     }
 

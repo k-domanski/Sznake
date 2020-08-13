@@ -1,4 +1,4 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 
 import android.content.Context;
@@ -6,14 +6,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import java.lang.Math;
 
-public class Magnetometer extends SensorBase {
+public class MagnetometerService extends SensorService {
 
     int m_randX = 0;
     int m_randY = 0;
     int m_screenWidth;
     int m_screenHeight;
 
-    public Magnetometer(Context context, int screenWidth, int screenHeight) {
+    public MagnetometerService(Context context, int screenWidth, int screenHeight) {
         super(context, Sensor.TYPE_MAGNETIC_FIELD, SensorManager.SENSOR_DELAY_NORMAL);
         m_screenHeight = screenHeight;
         m_screenWidth = screenWidth;
