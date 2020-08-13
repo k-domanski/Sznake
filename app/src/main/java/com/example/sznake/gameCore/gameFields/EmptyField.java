@@ -1,4 +1,4 @@
-package com.example.sznake.gameFields;
+package com.example.sznake.gameCore.gameFields;
 
 import android.graphics.Color;
 

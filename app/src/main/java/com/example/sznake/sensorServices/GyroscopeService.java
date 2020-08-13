@@ -4,7 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
-import com.example.sznake.Direction;
+import com.example.sznake.utils.Direction;
 
 public class GyroscopeService extends SensorService {
 
