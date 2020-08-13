@@ -1,4 +1,4 @@
-package com.example.sznake;
+package com.example.sznake.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +11,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.sznake.gameCore.DifficultyLevel;
+import com.example.sznake.gameCore.Game;
+import com.example.sznake.utils.Direction;
 import com.example.sznake.sensorServices.AccelerometerService;
 import com.example.sznake.sensorServices.GyroscopeService;
 import com.example.sznake.sensorServices.LightService;

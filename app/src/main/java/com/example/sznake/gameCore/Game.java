@@ -1,15 +1,16 @@
-package com.example.sznake;
+package com.example.sznake.gameCore;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import com.example.sznake.gameFields.BlockedField;
-import com.example.sznake.gameFields.EmptyField;
-import com.example.sznake.gameFields.GameField;
-import com.example.sznake.gameFields.GrowUpField;
-import com.example.sznake.gameFields.SnakeField;
+import com.example.sznake.utils.Direction;
+import com.example.sznake.gameCore.gameFields.BlockedField;
+import com.example.sznake.gameCore.gameFields.EmptyField;
+import com.example.sznake.gameCore.gameFields.GameField;
+import com.example.sznake.gameCore.gameFields.GrowUpField;
+import com.example.sznake.gameCore.gameFields.SnakeField;
 
 import java.util.Random;
 

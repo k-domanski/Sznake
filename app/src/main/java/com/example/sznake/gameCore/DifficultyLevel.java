@@ -1,4 +1,4 @@
-package com.example.sznake;
+package com.example.sznake.gameCore;
 
 public enum DifficultyLevel {
     EASY,

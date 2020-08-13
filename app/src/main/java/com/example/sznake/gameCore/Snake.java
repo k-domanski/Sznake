@@ -1,6 +1,7 @@
-package com.example.sznake;
+package com.example.sznake.gameCore;
 
-import com.example.sznake.gameFields.SnakeField;
+import com.example.sznake.utils.Direction;
+import com.example.sznake.gameCore.gameFields.SnakeField;
 
 import java.util.ArrayList;
 import java.util.List;

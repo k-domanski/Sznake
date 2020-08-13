@@ -1,9 +1,10 @@
-package com.example.sznake;
+package com.example.sznake.gameCore;
 
 
-import com.example.sznake.gameFields.BlockedField;
-import com.example.sznake.gameFields.EmptyField;
-import com.example.sznake.gameFields.GameField;
+import com.example.sznake.utils.Direction;
+import com.example.sznake.gameCore.gameFields.BlockedField;
+import com.example.sznake.gameCore.gameFields.EmptyField;
+import com.example.sznake.gameCore.gameFields.GameField;
 
 public class GameBoard {
     private int sizeX;

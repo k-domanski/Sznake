@@ -1,4 +1,6 @@
-package com.example.sznake;
+package com.example.sznake.gameCore;
+
+import com.example.sznake.utils.Direction;
 
 public class QTE {
     private long stopTime;

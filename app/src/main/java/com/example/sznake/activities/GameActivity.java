@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.example.sznake.GameView;
+import com.example.sznake.view.GameView;
 
 public class GameActivity extends AppCompatActivity {
 
