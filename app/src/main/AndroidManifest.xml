@@ -19,13 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GameActivity"
+            android:name=".activities.GameActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.noActionBar">
 
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.noActionBar">
             <intent-filter>

@@ -1,18 +1,15 @@
-package com.example.sznake;
+package com.example.sznake.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 
-import com.example.sznake.sensors.Accelerometer;
-import com.example.sznake.sensors.Light;
-import com.example.sznake.sensors.SensorBase;
+import com.example.sznake.R;
 
 
 public class MainActivity extends AppCompatActivity {

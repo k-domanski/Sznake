@@ -1,4 +1,4 @@
-package com.example.sznake;
+package com.example.sznake.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.example.sznake.GameView;
 
 public class GameActivity extends AppCompatActivity {
 
