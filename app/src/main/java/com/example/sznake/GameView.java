@@ -11,20 +11,20 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.sznake.sensors.Accelerometer;
-import com.example.sznake.sensors.Gyroscope;
-import com.example.sznake.sensors.Light;
-import com.example.sznake.sensors.Magnetometer;
-import com.example.sznake.sensors.Proximity;
+import com.example.sznake.sensorServices.AccelerometerService;
+import com.example.sznake.sensorServices.GyroscopeService;
+import com.example.sznake.sensorServices.LightService;
+import com.example.sznake.sensorServices.MagnetometerService;
+import com.example.sznake.sensorServices.ProximityService;
 
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
 
-    private Accelerometer accelerometer;
-    private Light light;
-    private Magnetometer magnetometer;
+    private AccelerometerService accelerometerService;
+    private LightService lightService;
+    private MagnetometerService magnetometerService;
 
     private long nextFrameTime;
     private final long MILLIS_PER_SECOND = 1000;
@@ -43,9 +43,9 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     private Paint paint;
 
-    private Gyroscope gyroscope;
+    private GyroscopeService gyroscopeService;
     //PROXIMITY
-    private Proximity proximity;
+    private ProximityService proximityService;
     private boolean isPaused;
     public GameView(Context context, Point size) {
         super(context);
@@ -59,20 +59,20 @@ public class GameView extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         paint = new Paint();
 
-        gyroscope = new Gyroscope(context);
+        gyroscopeService = new GyroscopeService(context);
 
         //PROXIMITY
-        proximity = new Proximity(context);
+        proximityService = new ProximityService(context);
 
         try {
-            light = new Light(context);
+            lightService = new LightService(context);
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
         }
 
-        accelerometer = new Accelerometer(context);
+        accelerometerService = new AccelerometerService(context);
 
-        magnetometer = new Magnetometer(context, NUM_BLOCKS_WIDE, numBlocksHigh);
+        magnetometerService = new MagnetometerService(context, NUM_BLOCKS_WIDE, numBlocksHigh);
 
         newGame();
 
@@ -83,19 +83,19 @@ public class GameView extends SurfaceView implements Runnable {
         String points;
         int qtecolor=Color.WHITE;
         while (isPlaying) {
-            isPaused = proximity.isPaused();
+            isPaused = proximityService.isPaused();
             if (isUpdateRequired() && !isPaused) {
                 game.update();
-                game.setUpgradeColor(accelerometer.getColor());
-                game.getGameBoard().getSnake().setDirection(gyroscope.getDirection());
-                game.setUpgradePosition(magnetometer.getRandX(), magnetometer.getRandY());
+                game.setUpgradeColor(accelerometerService.getColor());
+                game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
+                game.setUpgradePosition(magnetometerService.getRandX(), magnetometerService.getRandY());
 
                 //
                 if(game.isQTEActive()){
-                    game.checkQTE(accelerometer.getX_value(),accelerometer.getY_value());
+                    game.checkQTE(accelerometerService.getX_value(), accelerometerService.getY_value());
                 }
 
-                android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, light.getCurrentScreenBrightness());
+                android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, lightService.getCurrentScreenBrightness());
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
@@ -129,11 +129,11 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void resume() {
-        gyroscope.register();
-        proximity.register();
-        light.register();
-        accelerometer.register();
-        magnetometer.register();
+        gyroscopeService.register();
+        proximityService.register();
+        lightService.register();
+        accelerometerService.register();
+        magnetometerService.register();
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
@@ -141,11 +141,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void pause() {
         try {
-            gyroscope.unregister();
-            proximity.unregister();
-            light.unregister();
-            accelerometer.unregister();
-            magnetometer.unregister();
+            gyroscopeService.unregister();
+            proximityService.unregister();
+            lightService.unregister();
+            accelerometerService.unregister();
+            magnetometerService.unregister();
             isPlaying = false;
             thread.join();
         } catch (InterruptedException e) {
@@ -166,7 +166,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void newGame() {
         //gyroscope.setOrientation(Orientation.UP);
 
-        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscope.getDirection());
+        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
         game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();
@@ -181,16 +181,16 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 if(!isPaused) {
                     if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscope.setOrientation(Direction.RIGHT);
+                        gyroscopeService.setOrientation(Direction.RIGHT);
                         break;
                     } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscope.setOrientation(Direction.LEFT);
+                        gyroscopeService.setOrientation(Direction.LEFT);
                         break;
                     } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscope.setOrientation(Direction.DOWN);
+                        gyroscopeService.setOrientation(Direction.DOWN);
                         break;
                     } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscope.setOrientation(Direction.UP);
+                        gyroscopeService.setOrientation(Direction.UP);
                         break;
                     }
                 }

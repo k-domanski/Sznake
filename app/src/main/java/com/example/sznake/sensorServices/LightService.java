@@ -1,17 +1,15 @@
-package com.example.sznake.sensors;
+package com.example.sznake.sensorServices;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.provider.Settings;
 
-public class Light extends SensorBase {
+public class LightService extends SensorService {
 
     private int currentScreenBrightness;
 
-    public Light(Context context) throws Settings.SettingNotFoundException {
+    public LightService(Context context) throws Settings.SettingNotFoundException {
         super(context, Sensor.TYPE_LIGHT, SensorManager.SENSOR_DELAY_GAME);
         currentScreenBrightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
     }

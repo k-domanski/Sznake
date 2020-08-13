@@ -1,9 +1,9 @@
 package com.example.sznake;
 
 
-import com.example.sznake.fields.BlockedField;
-import com.example.sznake.fields.EmptyField;
-import com.example.sznake.fields.GameField;
+import com.example.sznake.gameFields.BlockedField;
+import com.example.sznake.gameFields.EmptyField;
+import com.example.sznake.gameFields.GameField;
 
 public class GameBoard {
     private int sizeX;
