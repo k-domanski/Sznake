@@ -19,13 +19,13 @@ public class GyroscopeService extends SensorService {
         float valX = sensorEventValues[0];
         float valY = sensorEventValues[1];
         float SENSOR_TRESHOLD = 3.0f;
-        if (valY > SENSOR_TRESHOLD && (m_direction != Direction.DOWN)) {
+        if (valY > SENSOR_TRESHOLD) {
             m_direction = Direction.UP;
-        } else if (valY < -SENSOR_TRESHOLD && (m_direction != Direction.UP)) {
+        } else if (valY < -SENSOR_TRESHOLD) {
             m_direction = Direction.DOWN;
-        } else if (valX > SENSOR_TRESHOLD && (m_direction != Direction.LEFT)) {
+        } else if (valX > SENSOR_TRESHOLD) {
             m_direction = Direction.RIGHT;
-        } else if (valX < -SENSOR_TRESHOLD && (m_direction != Direction.RIGHT)) {
+        } else if (valX < -SENSOR_TRESHOLD) {
             m_direction = Direction.LEFT;
         }
     }
