@@ -90,7 +90,10 @@ public class GameView extends SurfaceView implements Runnable {
             if (isUpdateRequired() && !isPaused) {
                 game.update();
                 game.setUpgradeColor(accelerometerService.getColor());
-                game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
+                if(!game.getGameBoard().getSnake().getDirection().isOpposite(gyroscopeService.getDirection()))
+                {
+                    game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
+                }
                 game.setUpgradePosition(magnetometerService.getRandX(), magnetometerService.getRandY());
 
                 //
