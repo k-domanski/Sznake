@@ -10,7 +10,9 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
+import com.example.sznake.R;
 import com.example.sznake.gameCore.DifficultyLevel;
 import com.example.sznake.gameCore.Game;
 import com.example.sznake.utils.Direction;
@@ -20,10 +22,17 @@ import com.example.sznake.sensorServices.LightService;
 import com.example.sznake.sensorServices.MagnetometerService;
 import com.example.sznake.sensorServices.ProximityService;
 
+import java.beans.PropertyChangeSupport;
+
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
+
+    private boolean gameOver;
+
+
+    private PropertyChangeSupport changeSupport;
 
     private AccelerometerService accelerometerService;
     private LightService lightService;
@@ -77,6 +86,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         magnetometerService = new MagnetometerService(context, NUM_BLOCKS_WIDE, numBlocksHigh);
 
+        changeSupport = new PropertyChangeSupport(this);
+
         newGame();
 
     }
@@ -128,8 +139,12 @@ public class GameView extends SurfaceView implements Runnable {
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
 
-                if(game.isDead())
-                    newGame();
+                if(game.isDead()) {
+                    gameOver = true;
+                    this.changeSupport.firePropertyChange("gameOver",false,true);
+                    //newGame();
+                }
+
             }
         }
     }
@@ -144,6 +159,7 @@ public class GameView extends SurfaceView implements Runnable {
         thread = new Thread(this);
         thread.start();
     }
+
 
     public void pause() {
         try {
@@ -168,15 +184,22 @@ public class GameView extends SurfaceView implements Runnable {
 
         return false;
     }
+    public boolean isGameOver() {
+        return gameOver;
+    }
 
     private void newGame() {
         //gyroscope.setOrientation(Orientation.UP);
 
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
-        game.setDifficultyLevel(DifficultyLevel.EASY);
+        game.setDifficultyLevel(DifficultyLevel.HARD);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
+    }
+
+    public PropertyChangeSupport getChangeSupport() {
+        return changeSupport;
     }
 
 
