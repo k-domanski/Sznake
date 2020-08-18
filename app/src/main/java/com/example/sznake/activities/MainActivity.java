@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             this.startActivity(intent);
         }
+        findViewById(R.id.exitButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
