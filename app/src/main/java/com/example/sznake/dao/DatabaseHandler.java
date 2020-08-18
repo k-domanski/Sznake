@@ -18,7 +18,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Blob;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "SnakeDB";
     private static final String FIRST_TABLE_NAME = "Games";
     private static final String SECOND_TABLE_NAME = "Points";
@@ -34,7 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE_GAMES = "CREATE TABLE IF NOT EXISTS Games ( " + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "data BLOB)";
-        String CREATION_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS Games ( " + "points INTEGER)";
+        String CREATION_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS Points ( " + "points INTEGER)";
 
         db.execSQL(CREATION_TABLE_GAMES);
         db.execSQL(CREATION_TABLE_POINTS);

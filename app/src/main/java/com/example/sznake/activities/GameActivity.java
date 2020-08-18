@@ -86,11 +86,7 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
 
         gameView.pause();
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         DatabaseHandler databaseHandler= new DatabaseHandler(this);
 
         if(gameView.isGameOver()){
@@ -103,5 +99,12 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+
+        super.onDestroy();
     }
 }
