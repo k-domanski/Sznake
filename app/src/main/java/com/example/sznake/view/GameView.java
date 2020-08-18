@@ -42,6 +42,8 @@ public class GameView extends SurfaceView implements Runnable {
     private final long MILLIS_PER_SECOND = 1000;
     private final long FPS = 10;
 
+
+
     private Game game;
 
     private int blockSize;
@@ -107,7 +109,6 @@ public class GameView extends SurfaceView implements Runnable {
                 }
                 game.setUpgradePosition(magnetometerService.getRandX(), magnetometerService.getRandY());
 
-                //
                 if(game.isQTEActive()){
                     game.checkQTE(accelerometerService.getX_value(), accelerometerService.getY_value());
                 }
@@ -227,5 +228,9 @@ public class GameView extends SurfaceView implements Runnable {
 
 
         return true;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

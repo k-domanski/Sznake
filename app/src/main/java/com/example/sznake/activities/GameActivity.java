@@ -2,6 +2,7 @@ package com.example.sznake.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -39,7 +40,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(gameView.isGameOver()){
-                    startActivity(new Intent(GameActivity.this, GameOverActivity.class));
+                    //Intent intent= new Intent(GameActivity.this, GameOverActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //startActivity(intent);
+                    Intent intent= new Intent();
+                    intent.putExtra("result",gameView.getGame().getPoints());
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+
                 }
             }
         };
