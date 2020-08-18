@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements Runnable {
     //PROXIMITY
     private ProximityService proximityService;
     private boolean isPaused;
-    public GameView(Context context, Point size) {
+    public GameView(Context context, Point size, Game game) {
         super(context);
 
         screenX = size.x;
@@ -89,10 +89,15 @@ public class GameView extends SurfaceView implements Runnable {
         magnetometerService = new MagnetometerService(context, NUM_BLOCKS_WIDE, numBlocksHigh);
 
         changeSupport = new PropertyChangeSupport(this);
-
-        newGame();
+        if(game==null) {
+            newGame();
+        }
+        else {
+            loadGame(game);
+        }
 
     }
+
 
     @Override
     public void run() {
@@ -196,6 +201,10 @@ public class GameView extends SurfaceView implements Runnable {
         game.generateUpgrade();
         game.setDifficultyLevel(DifficultyLevel.HARD);
         game.createBorder();
+        nextFrameTime = System.currentTimeMillis();
+    }
+    private void loadGame(Game game){
+        this.game = game;
         nextFrameTime = System.currentTimeMillis();
     }
 

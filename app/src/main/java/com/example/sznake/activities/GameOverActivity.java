@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sznake.R;
+import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.Game;
 
 
@@ -21,6 +22,9 @@ public class GameOverActivity extends AppCompatActivity {
         int gatheredPoints = getIntent().getIntExtra("points",0);
         TextView pointsField = findViewById(R.id.points);
             pointsField.setText(String.valueOf(gatheredPoints));
+        DatabaseHandler databaseHandler= new DatabaseHandler(this);
+        databaseHandler.savePoints(gatheredPoints);
+        databaseHandler.close();
 
 
 

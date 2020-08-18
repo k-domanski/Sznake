@@ -12,11 +12,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.sznake.R;
+import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.Game;
 import com.example.sznake.view.GameView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -34,8 +36,20 @@ public class GameActivity extends AppCompatActivity {
 
         Point size = new Point();
         display.getSize(size);
+        int gatheredPoints = getIntent().getIntExtra("points",0);
+        boolean resumeGame = getIntent().getBooleanExtra("resume",false);
+        Game game = null;
+        if(resumeGame){
+            DatabaseHandler databaseHandler= new DatabaseHandler(this);
+            try {
+                game = databaseHandler.getGame();
+                databaseHandler.close();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
-        gameView = new GameView(this, size);
+        gameView = new GameView(this, size,game);
         changeListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -72,5 +86,22 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
 
         gameView.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DatabaseHandler databaseHandler= new DatabaseHandler(this);
+
+        if(gameView.isGameOver()){
+            databaseHandler.clearGames();
+        }
+        else {
+            try {
+                databaseHandler.saveGame(gameView.getGame());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

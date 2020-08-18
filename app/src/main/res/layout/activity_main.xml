@@ -47,6 +47,16 @@
         android:layout_margin="16dp"
         android:id="@+id/highScoreTxt"/>
 
+    <TextView
+        android:id="@+id/hpoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/highScoreTxt"
+        android:layout_alignParentRight="true"
+        android:drawablePadding="30sp"
+        android:text="TextView"
+        android:textSize="20sp" />
+
     <ImageView
         android:id="@+id/volumeCtrl"
         android:layout_width="36dp"
