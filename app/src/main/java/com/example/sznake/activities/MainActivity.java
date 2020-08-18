@@ -54,19 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        //int highscore = databaseHandler.getHighestScore();
-        int highscore=0;
-        TextView scoreView = (TextView)findViewById(R.id.hpoints);
-        scoreView.setText(String.valueOf(highscore));
-        try {
-            if(databaseHandler.getGame()==null){
-                TextView textView = (TextView)findViewById(R.id.load);
-                textView.setVisibility(View.INVISIBLE);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +97,27 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        int highscore=0;
+        highscore=databaseHandler.getHighestScore();
+        TextView scoreView = (TextView)findViewById(R.id.hpoints);
+        scoreView.setText(String.valueOf(highscore));
+        try {
+            TextView textView = (TextView)findViewById(R.id.load);
+            if(databaseHandler.getGame()==null){
+                textView.setVisibility(View.INVISIBLE);
+            }
+            else {
+                textView.setVisibility(View.VISIBLE);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

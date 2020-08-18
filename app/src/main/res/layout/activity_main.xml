@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/highScoreTxt"
         android:layout_alignParentRight="true"
-        android:drawablePadding="30sp"
+        android:layout_marginRight="30sp"
         android:text="TextView"
         android:textSize="20sp" />
 
