@@ -1,8 +1,10 @@
 package com.example.sznake.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,19 +16,30 @@ public class GameOverActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gameover);
 
-       setContentView(R.layout.activity_gameover);
+        int gatheredPoints = getIntent().getIntExtra("points",0);
+        TextView pointsField = findViewById(R.id.points);
+            pointsField.setText(String.valueOf(gatheredPoints));
+
+
 
         findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GameOverActivity.this, MainActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra("tryAgain",false);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
             }
         });
         findViewById(R.id.again).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GameOverActivity.this, GameActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra("tryAgain",true);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
             }
         });
 

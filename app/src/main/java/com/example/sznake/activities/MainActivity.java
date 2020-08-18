@@ -1,8 +1,10 @@
 package com.example.sznake.activities;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GameActivity.class));
+               Intent intent=  new Intent(MainActivity.this,GameActivity.class);
+                startActivityForResult(intent,1);
             }
         });
 
@@ -57,5 +60,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         music.release();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1){
+            if(resultCode== Activity.RESULT_OK){
+                int points = data.getIntExtra("result",0);
+                Intent intent=  new Intent(MainActivity.this,GameOverActivity.class);
+                intent.putExtra("points",points);
+                this.startActivityForResult(intent,2);
+            }
+        }
+        else if(requestCode==2){
+            if(resultCode == Activity.RESULT_OK){
+                boolean newGame = data.getBooleanExtra("tryAgain",false);
+                if(newGame){
+                    Intent intent=  new Intent(MainActivity.this,GameActivity.class);
+                    startActivityForResult(intent,1);
+                }
+
+            }
+        }
     }
 }

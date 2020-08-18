@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/again"
-        android:layout_below="@id/highScoreTxt"
+        android:layout_below="@id/score"
         android:layout_centerHorizontal="true"
         android:text="Game Over"
         android:textSize="48sp" />
@@ -31,7 +31,7 @@
         android:textSize="44sp" />
 
     <TextView
-        android:id="@+id/highScoreTxt"
+        android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -43,6 +43,16 @@
         android:text="Your Score"
         android:textColor="#000000"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30sp"
+        android:text="NULL"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/menu"
