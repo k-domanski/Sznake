@@ -12,9 +12,10 @@ import com.example.sznake.gameCore.gameFields.GameField;
 import com.example.sznake.gameCore.gameFields.GrowUpField;
 import com.example.sznake.gameCore.gameFields.SnakeField;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Game {
+public class Game implements Serializable {
 
 
 

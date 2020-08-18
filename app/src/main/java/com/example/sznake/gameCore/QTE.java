@@ -2,7 +2,9 @@ package com.example.sznake.gameCore;
 
 import com.example.sznake.utils.Direction;
 
-public class QTE {
+import java.io.Serializable;
+
+public class QTE implements Serializable {
     private long stopTime;
     private Direction QTEDirection;
 

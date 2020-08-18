@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-public abstract class GameField {
+import java.io.Serializable;
+
+public abstract class GameField implements Serializable {
     protected int X;
     protected int Y;
     protected int m_color;
