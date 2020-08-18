@@ -11,8 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.sznake.R;
+import com.example.sznake.dao.DatabaseHandler;
+
+import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +50,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                Intent intent=  new Intent(MainActivity.this,GameActivity.class);
+                startActivityForResult(intent,1);
+            }
+        });
+
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        //int highscore = databaseHandler.getHighestScore();
+        int highscore=0;
+        TextView scoreView = (TextView)findViewById(R.id.hpoints);
+        scoreView.setText(String.valueOf(highscore));
+        try {
+            if(databaseHandler.getGame()==null){
+                TextView textView = (TextView)findViewById(R.id.load);
+                textView.setVisibility(View.INVISIBLE);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=  new Intent(MainActivity.this,GameActivity.class);
+                intent.putExtra("resume",true);
                 startActivityForResult(intent,1);
             }
         });

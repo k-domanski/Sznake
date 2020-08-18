@@ -18,7 +18,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Blob;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "SnakeDB";
     private static final String FIRST_TABLE_NAME = "Games";
     private static final String SECOND_TABLE_NAME = "Points";
@@ -33,8 +33,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATION_TABLE_GAMES = "CREATE TABLE Games ( " + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "data BLOB)";
-        String CREATION_TABLE_POINTS = "CREATE TABLE Games ( " + "points INTEGER)";
+        String CREATION_TABLE_GAMES = "CREATE TABLE IF NOT EXISTS Games ( " + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "data BLOB)";
+        String CREATION_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS Games ( " + "points INTEGER)";
 
         db.execSQL(CREATION_TABLE_GAMES);
         db.execSQL(CREATION_TABLE_POINTS);
@@ -86,9 +86,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Game getGame() throws IOException, ClassNotFoundException {
         Game game = null;
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(FIRST_TABLE_NAME,FIRST_COLUMNS,"id = *",null,null,null,KEY_ID,null);
-        if(cursor!=null){
-            cursor.moveToLast();
+        Cursor cursor = database.query(FIRST_TABLE_NAME,FIRST_COLUMNS,null,null,null,null,KEY_ID,null);
+        if(cursor!=null && cursor.moveToLast()){
             byte[] buffor = cursor.getBlob(1);
             if(buffor!=null) {
                 ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buffor));
@@ -108,9 +107,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public int getHighestScore(){
         int highscore = 0;
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(SECOND_TABLE_NAME,SECOND_COLUMNS,"*",null,null,null,KEY_Points,null);
-        if(cursor!=null){
-            cursor.moveToLast();
+        Cursor cursor = database.query(SECOND_TABLE_NAME,SECOND_COLUMNS,null,null,null,null,KEY_Points,null);
+        if(cursor!=null && cursor.moveToLast()){
             highscore=cursor.getInt(0);
             cursor.close();
         }
