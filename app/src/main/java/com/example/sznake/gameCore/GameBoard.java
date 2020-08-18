@@ -6,7 +6,9 @@ import com.example.sznake.gameCore.gameFields.BlockedField;
 import com.example.sznake.gameCore.gameFields.EmptyField;
 import com.example.sznake.gameCore.gameFields.GameField;
 
-public class GameBoard {
+import java.io.Serializable;
+
+public class GameBoard implements Serializable {
     private int sizeX;
     private int sizeY;
     private GameField[][] fields;

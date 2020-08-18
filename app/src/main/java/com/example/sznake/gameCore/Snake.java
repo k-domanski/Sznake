@@ -3,10 +3,11 @@ package com.example.sznake.gameCore;
 import com.example.sznake.utils.Direction;
 import com.example.sznake.gameCore.gameFields.SnakeField;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Snake {
+public class Snake implements Serializable {
 
     private List<SnakeField> body;
     private Direction direction;
