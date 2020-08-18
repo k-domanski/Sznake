@@ -54,9 +54,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(gameView.isGameOver()){
-                    //Intent intent= new Intent(GameActivity.this, GameOverActivity.class);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //startActivity(intent);
                     Intent intent= new Intent();
                     intent.putExtra("result",gameView.getGame().getPoints());
                     setResult(Activity.RESULT_OK,intent);

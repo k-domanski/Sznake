@@ -21,13 +21,13 @@
         android:layout_centerHorizontal="true"/>
 
     <TextView
+        android:id="@+id/play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play!"
-        android:textSize="64sp"
         android:layout_centerInParent="true"
+        android:text="Play!"
         android:textColor="#000000"
-        android:id="@+id/play"/>
+        android:textSize="45sp" />
 
     <TextView
         android:id="@+id/load"
@@ -35,7 +35,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/play"
         android:layout_centerHorizontal="true"
-        android:text="Continue last game" />
+        android:text="Continue last game"
+        android:textColor="@android:color/black"
+        android:textSize="45sp" />
+
+    <TextView
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/load"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        android:text="Exit"
+        android:textColor="@android:color/black"
+        android:textSize="45sp" />
 
     <TextView
         android:layout_width="wrap_content"
