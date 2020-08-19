@@ -19,9 +19,8 @@ public class GameOverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameover);
-        gameOverMusic = MediaPlayer.create(GameOverActivity.this, R.raw.game_over);
-        gameOverMusic.setLooping(false);
-        gameOverMusic.start();
+        gameOverMusic = MainActivity.audioManager.getGameOver();
+
 
 
         int gatheredPoints = getIntent().getIntExtra("points",0);
@@ -58,13 +57,11 @@ public class GameOverActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        gameOverMusic.start();
-
+        MainActivity.audioManager.onGameOver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        gameOverMusic.release();
     }
 }

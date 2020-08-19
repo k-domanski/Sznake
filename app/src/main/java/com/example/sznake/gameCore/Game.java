@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
+import com.example.sznake.activities.MainActivity;
 import com.example.sznake.utils.Direction;
 import com.example.sznake.gameCore.gameFields.BlockedField;
 import com.example.sznake.gameCore.gameFields.EmptyField;
@@ -17,14 +18,10 @@ import java.util.Random;
 
 public class Game implements Serializable {
 
-
-
     private GameBoard gameBoard;
     private int points = 0;
     private boolean isDead;
     private boolean failedQTE;
-
-
 
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
     private GrowUpField upgrade;
@@ -108,7 +105,9 @@ public class Game implements Serializable {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         moveSnake();
         if (nextFieldType == GrowUpField.class) {
+
             points++;
+            MainActivity.audioManager.onGrowUpPicked();
             gameBoard.getSnake().setGrowing(true);
             generateUpgrade();
         } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeField.class) {
@@ -120,7 +119,7 @@ public class Game implements Serializable {
     }
 
     private boolean shouldTriggerQTE() {
-        return points!=0&&points%10==0&&!failedQTE&&qte==null;
+        return points != 0 && points % 10 == 0 && !failedQTE && qte == null;
     }
 
     public void checkQTE(int X,int Y){
@@ -166,7 +165,7 @@ public class Game implements Serializable {
         upgradeY = newY;
     }
 
-    public void addBonusPoints(int amount){
+    public void addBonusPoints(int amount) {
         points += amount;
     }
 
