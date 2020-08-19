@@ -11,7 +11,8 @@ public class LightService extends SensorService {
 
     public LightService(Context context) throws Settings.SettingNotFoundException {
         super(context, Sensor.TYPE_LIGHT, SensorManager.SENSOR_DELAY_GAME);
-        currentScreenBrightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+        currentScreenBrightness = Settings.System.getInt(context.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS);
     }
 
     @Override

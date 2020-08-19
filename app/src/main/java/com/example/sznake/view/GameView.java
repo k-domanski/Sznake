@@ -105,17 +105,24 @@ public class GameView extends SurfaceView implements Runnable {
             if (isUpdateRequired() && !isPaused) {
                 game.update();
                 game.setUpgradeColor(accelerometerService.getColor());
-                if(!game.getGameBoard().getSnake().getDirection().isOpposite(gyroscopeService.getDirection()))
+                if(!game.getGameBoard().getSnake().getDirection().isOpposite(
+                        gyroscopeService.getDirection()))
                 {
                     game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
                 }
-                game.setUpgradePosition(magnetometerService.getRandX(), magnetometerService.getRandY());
+                game.setUpgradePosition(magnetometerService.getRandX(),
+                        magnetometerService.getRandY());
 
                 if(game.isQTEActive()){
-                    game.checkQTE(accelerometerService.getX_value(), accelerometerService.getY_value());
+                    game.checkQTE(accelerometerService.getX_value(),
+                            accelerometerService.getY_value());
                 }
 
-                android.provider.Settings.System.putInt(getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, lightService.getCurrentScreenBrightness());
+                android.provider.Settings.System.putInt(
+                        getContext().getContentResolver(),
+                        Settings.System.SCREEN_BRIGHTNESS,
+                        lightService.getCurrentScreenBrightness());
+
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
@@ -131,7 +138,8 @@ public class GameView extends SurfaceView implements Runnable {
                         paint.setColor(qtecolor);
                         paint.setAlpha(70);
                         paint.setTextSize(500);
-                        canvas.drawText(game.getQte().getQTEDirection().toString(), screenX/2-100, screenY/2+100, paint);
+                        canvas.drawText(game.getQte().getQTEDirection().toString(),
+                                screenX/2-100, screenY/2+100, paint);
                     }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
@@ -201,7 +209,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
-        game.setDifficultyLevel(DifficultyLevel.EASY);
+        game.setDifficultyLevel(DifficultyLevel.HARD);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }
