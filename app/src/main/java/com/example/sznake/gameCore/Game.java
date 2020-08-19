@@ -114,10 +114,15 @@ public class Game implements Serializable {
         } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeField.class) {
             isDead = true;
         }
-        if(points!=0&&points%10==0&&!failedQTE&&qte==null){
+        if(shouldTriggerQTE()){
             qte=new QTE(3000);
         }
     }
+
+    private boolean shouldTriggerQTE() {
+        return points!=0&&points%10==0&&!failedQTE&&qte==null;
+    }
+
     public void checkQTE(int X,int Y){
         if(qte==null){
             return;
