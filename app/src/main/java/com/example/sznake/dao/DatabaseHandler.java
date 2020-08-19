@@ -31,9 +31,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATION_TABLE_GAMES = "CREATE TABLE IF NOT EXISTS Games ( " + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "data BLOB)";
+        String CREATION_TABLE_GAMES = "CREATE TABLE IF NOT EXISTS Games ( "
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "data BLOB)";
         String CREATION_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS Points ( " + "points INTEGER)";
 
         db.execSQL(CREATION_TABLE_GAMES);
@@ -82,11 +84,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.close();
     }
 
-
     public Game getGame() throws IOException, ClassNotFoundException {
         Game game = null;
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(FIRST_TABLE_NAME,FIRST_COLUMNS,null,null,null,null,KEY_ID,null);
+        Cursor cursor = database.query(FIRST_TABLE_NAME,FIRST_COLUMNS,null,
+                null,null,null,KEY_ID,null);
         if(cursor!=null && cursor.moveToLast()){
             byte[] buffor = cursor.getBlob(1);
             if(buffor!=null) {
@@ -107,7 +109,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public int getHighestScore(){
         int highscore = 0;
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.query(SECOND_TABLE_NAME,SECOND_COLUMNS,null,null,null,null,KEY_Points,null);
+        Cursor cursor = database.query(SECOND_TABLE_NAME,SECOND_COLUMNS,null,
+                null,null,null,KEY_Points,null);
         if(cursor!=null && cursor.moveToLast()){
             highscore=cursor.getInt(0);
             cursor.close();
