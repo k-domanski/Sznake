@@ -8,6 +8,7 @@ import com.example.sznake.utils.Direction;
 
 public class GyroscopeService extends SensorService {
 
+    private static final float GYRO_TRESHOLD = 3.0f;
     private Direction m_direction = Direction.UP;
 
     public GyroscopeService(Context context) {
@@ -18,14 +19,13 @@ public class GyroscopeService extends SensorService {
     public void onTranslation(float[] sensorEventValues) {
         float valX = sensorEventValues[0];
         float valY = sensorEventValues[1];
-        float SENSOR_TRESHOLD = 3.0f;
-        if (valY > SENSOR_TRESHOLD) {
+        if (valY > GYRO_TRESHOLD) {
             m_direction = Direction.UP;
-        } else if (valY < -SENSOR_TRESHOLD) {
+        } else if (valY < -GYRO_TRESHOLD) {
             m_direction = Direction.DOWN;
-        } else if (valX > SENSOR_TRESHOLD) {
+        } else if (valX > GYRO_TRESHOLD) {
             m_direction = Direction.RIGHT;
-        } else if (valX < -SENSOR_TRESHOLD) {
+        } else if (valX < -GYRO_TRESHOLD) {
             m_direction = Direction.LEFT;
         }
     }
@@ -35,7 +35,7 @@ public class GyroscopeService extends SensorService {
         return m_direction;
     }
 
-    public void setOrientation(Direction direction) {
+    public void setDirection(Direction direction) {
         m_direction = direction;
     }
 }

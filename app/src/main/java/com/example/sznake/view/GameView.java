@@ -10,9 +10,7 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
-import com.example.sznake.R;
 import com.example.sznake.gameCore.DifficultyLevel;
 import com.example.sznake.gameCore.Game;
 import com.example.sznake.utils.Direction;
@@ -230,16 +228,16 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_UP:
                 if(!isPaused) {
                     if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscopeService.setOrientation(Direction.RIGHT);
+                        gyroscopeService.setDirection(Direction.RIGHT);
                         break;
                     } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscopeService.setOrientation(Direction.LEFT);
+                        gyroscopeService.setDirection(Direction.LEFT);
                         break;
                     } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscopeService.setOrientation(Direction.DOWN);
+                        gyroscopeService.setDirection(Direction.DOWN);
                         break;
                     } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscopeService.setOrientation(Direction.UP);
+                        gyroscopeService.setDirection(Direction.UP);
                         break;
                     }
                 }
