@@ -2,6 +2,7 @@ package com.example.sznake.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -10,14 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
-import com.example.sznake.gameCore.Game;
 
 
 public class GameOverActivity extends AppCompatActivity {
+    MediaPlayer gameOverMusic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameover);
+        gameOverMusic = MediaPlayer.create(GameOverActivity.this, R.raw.game_over);
+        gameOverMusic.setLooping(false);
+        gameOverMusic.start();
+
 
         int gatheredPoints = getIntent().getIntExtra("points",0);
         TextView pointsField = findViewById(R.id.points);
@@ -53,12 +58,13 @@ public class GameOverActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        gameOverMusic.start();
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        gameOverMusic.release();
     }
 }

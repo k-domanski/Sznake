@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer music;
+    static MediaPlayer music;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        music.start();
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         int highscore=0;
         highscore=databaseHandler.getHighestScore();
@@ -126,5 +127,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        music.pause();
     }
 }
