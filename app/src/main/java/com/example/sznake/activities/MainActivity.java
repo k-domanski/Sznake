@@ -31,17 +31,18 @@ public class MainActivity extends AppCompatActivity {
 
         music = MediaPlayer.create(MainActivity.this, R.raw.vandetta);
         music.setLooping(true);
+        music.start();
         findViewById(R.id.volumeCtrl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(music.isPlaying())
                 {
                     music.pause();
-                    v.setBackgroundResource(R.drawable.ic_baseline_volume_up_24);
+                    v.setBackgroundResource(R.drawable.ic_baseline_volume_off_24);
                 } else
                 {
                     music.start();
-                    v.setBackgroundResource(R.drawable.ic_baseline_volume_off_24);
+                    v.setBackgroundResource(R.drawable.ic_baseline_volume_up_24);
                 }
             }
         });
