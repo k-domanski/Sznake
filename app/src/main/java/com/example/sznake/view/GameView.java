@@ -26,28 +26,29 @@ import java.beans.PropertyChangeSupport;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    private static final long MILLIS_PER_SECOND = 1000;
+    private static final long FPS = 10;
+    private static final int NUM_BLOCKS_WIDE = 40;
+
     private Thread thread;
+
     private boolean isPlaying;
-
     private boolean gameOver;
-
+    private boolean isPaused;
 
     private PropertyChangeSupport changeSupport;
 
     private AccelerometerService accelerometerService;
     private LightService lightService;
     private MagnetometerService magnetometerService;
+    private GyroscopeService gyroscopeService;
+    private ProximityService proximityService;
 
     private long nextFrameTime;
-    private final long MILLIS_PER_SECOND = 1000;
-    private final long FPS = 10;
-
-
 
     private Game game;
 
     private int blockSize;
-    private final int NUM_BLOCKS_WIDE = 40;
     private int numBlocksHigh;
 
     private int screenX;
@@ -57,10 +58,7 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     private Paint paint;
 
-    private GyroscopeService gyroscopeService;
-    //PROXIMITY
-    private ProximityService proximityService;
-    private boolean isPaused;
+
     public GameView(Context context, Point size, Game game) {
         super(context);
 
@@ -203,7 +201,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
-        game.setDifficultyLevel(DifficultyLevel.HARD);
+        game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }
