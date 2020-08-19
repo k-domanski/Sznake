@@ -207,7 +207,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
-        game.setDifficultyLevel(DifficultyLevel.HARD);
+        game.setDifficultyLevel(DifficultyLevel.EASY);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }
