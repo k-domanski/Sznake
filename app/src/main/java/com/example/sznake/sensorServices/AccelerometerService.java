@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 
 public class AccelerometerService extends SensorService {
 
+    private static final float ACC_TRESHOLD = 1.0f;
     int m_color = Color.GREEN;
     int x_value;
     int y_value;
@@ -20,18 +21,18 @@ public class AccelerometerService extends SensorService {
     public void onTranslation(float[] sensorEventValues) {
         float transX = sensorEventValues[0];
         float transY = sensorEventValues[1];
-        if(transX > 1.0f) {
+        if(transX > ACC_TRESHOLD) {
             m_color = Color.RED;
             x_value=1;
         }
-        else if(transX < -1.0f) {
+        else if(transX < -ACC_TRESHOLD) {
             m_color = Color.GREEN;
             x_value=-1;
         }
-        if(transY > 1.0f) {
+        if(transY > ACC_TRESHOLD) {
             y_value=1;
         }
-        else if(transY < -1.0f) {
+        else if(transY < -ACC_TRESHOLD) {
             y_value=-1;
         }
     }
