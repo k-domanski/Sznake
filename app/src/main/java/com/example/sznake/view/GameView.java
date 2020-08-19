@@ -101,7 +101,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-        String points;
         int qtecolor=Color.WHITE;
         while (isPlaying) {
             isPaused = proximityService.isPaused();
@@ -122,12 +121,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, surfaceHolder, paint, blockSize);
-                    points = String.valueOf(game.getPoints());
-                    paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                    paint.setColor(Color.BLACK);
-                    paint.setAlpha(60);
-                    paint.setTextSize(100);
-                    canvas.drawText(points, 20, 100, paint);
+                    drawPoints();
                     if(game.isQTEActive()){
 
                         if(qtecolor ==Color.WHITE) {
@@ -153,6 +147,16 @@ public class GameView extends SurfaceView implements Runnable {
 
             }
         }
+    }
+
+    private void drawPoints() {
+        String points;
+        points = String.valueOf(game.getPoints());
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paint.setColor(Color.BLACK);
+        paint.setAlpha(60);
+        paint.setTextSize(100);
+        canvas.drawText(points, 20, 100, paint);
     }
 
     public void resume() {
