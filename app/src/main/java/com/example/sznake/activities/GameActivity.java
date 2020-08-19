@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.ViewGroup;
@@ -75,14 +76,14 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        MainActivity.music.start();
         gameView.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        MainActivity.music.pause();
         gameView.pause();
 
         DatabaseHandler databaseHandler= new DatabaseHandler(this);
