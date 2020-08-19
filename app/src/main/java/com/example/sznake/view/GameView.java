@@ -59,10 +59,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context, Point size, Game game) {
         super(context);
-
         screenX = size.x;
         screenY = size.y;
-
         blockSize = screenX / NUM_BLOCKS_WIDE;
         numBlocksHigh = screenY / blockSize;
 
@@ -91,7 +89,6 @@ public class GameView extends SurfaceView implements Runnable {
         else {
             loadGame(game);
         }
-
     }
 
 
@@ -204,10 +201,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void newGame() {
         //gyroscope.setOrientation(Orientation.UP);
-
         game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection());
         game.generateUpgrade();
-        game.setDifficultyLevel(DifficultyLevel.EASY);
+        game.setDifficultyLevel(DifficultyLevel.HARD);
         game.createBorder();
         nextFrameTime = System.currentTimeMillis();
     }

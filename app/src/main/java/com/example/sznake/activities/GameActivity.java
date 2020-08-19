@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
-import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.Game;
 import com.example.sznake.view.GameView;
@@ -23,8 +19,8 @@ import java.io.IOException;
 
 public class GameActivity extends AppCompatActivity {
 
-
     GameView gameView;
+
     public PropertyChangeListener changeListener;
 
 
@@ -68,7 +64,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(gameView);
 
 
-
     }
 
 
@@ -76,15 +71,16 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MainActivity.music.start();
         gameView.resume();
+        MainActivity.audioManager.onGameStart();
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MainActivity.music.pause();
         gameView.pause();
+        MainActivity.audioManager.getBackgroundMusic().pause();
 
         DatabaseHandler databaseHandler= new DatabaseHandler(this);
 

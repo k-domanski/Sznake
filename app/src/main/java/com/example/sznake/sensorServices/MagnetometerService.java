@@ -21,8 +21,8 @@ public class MagnetometerService extends SensorService {
 
     @Override
     public void onTranslation(float[] sensorEventValues) {
-        m_randX = (100 * Math.abs(Math.round(sensorEventValues[0])))%m_screenWidth;
-        m_randY = (100 * Math.abs(Math.round(sensorEventValues[1])))%m_screenHeight;
+        m_randX = (100 * Math.abs(Math.round(sensorEventValues[0]))) % m_screenWidth;
+        m_randY = (100 * Math.abs(Math.round(sensorEventValues[1]))) % m_screenHeight;
     }
 
     public int getRandX() {

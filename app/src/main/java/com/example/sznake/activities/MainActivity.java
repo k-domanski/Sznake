@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.sznake.AudioManager;
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
 
@@ -21,29 +22,29 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    static MediaPlayer music;
+    static public AudioManager audioManager;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        audioManager = new AudioManager(MainActivity.this);
 
-        music = MediaPlayer.create(MainActivity.this, R.raw.vandetta);
-        music.setLooping(true);
-        music.start();
         findViewById(R.id.volumeCtrl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(music.isPlaying())
-                {
-                    music.pause();
+                if (!audioManager.isMuted()) {
+                    audioManager.setMuted(true);
+                    audioManager.onGameStart();
                     v.setBackgroundResource(R.drawable.ic_baseline_volume_off_24);
-                } else
-                {
-                    music.start();
+                }
+                else {
+                    audioManager.setMuted(false);
+                    audioManager.onGameStart();
                     v.setBackgroundResource(R.drawable.ic_baseline_volume_up_24);
                 }
+
             }
         });
 
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        music.release();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        music.start();
+        audioManager.onGameStart();
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         int highscore=0;
         highscore=databaseHandler.getHighestScore();
@@ -132,6 +132,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        music.pause();
+        audioManager.getBackgroundMusic().pause();
     }
 }
