@@ -4,14 +4,36 @@ import androidx.annotation.NonNull;
 
 import java.util.Random;
 
+/**
+ * Directions that can be used in 2Ds space. Relative to the screen.
+ * <p>
+ * Used mainly to determine direction in which snake is supposed to be moving.
+ */
 public enum Direction {
-    UP, DOWN, LEFT, RIGHT;
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT;
 
+    /**
+     * Picking a random element from the Direction enum.
+     *
+     * @return      random direction
+     */
     public static Direction getRandomElement() {
         Random random = new Random();
         return values()[random.nextInt(values().length)];
     }
 
+    /**
+     * Gets the string representation of direction.
+     * <p>
+     * Used as a simple way of indicating to user the direction in which the movement
+     * needs to be performed in "quick time events".
+     *
+     * @return      string corresponding to a given direction
+     * @see         com.example.sznake.gameCore.QTE
+     */
     @NonNull
     @Override
     public String toString() {
@@ -30,6 +52,13 @@ public enum Direction {
         return "";
     }
 
+    /**
+     * Checks if given direction is opposite.
+     *
+     * @param direction  the direction to check against
+     * @return           <code>true</code> if the given direction is opposite;
+     *                   <code>false</code> otherwise
+     */
     public boolean isOpposite(Direction direction) {
 
         switch (this) {
