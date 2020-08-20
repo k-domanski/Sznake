@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.Random;
 
 /**
- * Directions that can be used in 2Ds space. Relative to the screen.
+ * Class represents directions in 2Ds space. Relative to the screen.
  * <p>
  * Used mainly to determine direction in which snake is supposed to be moving.
  */
@@ -16,7 +16,7 @@ public enum Direction {
     RIGHT;
 
     /**
-     * Picking a random element from the Direction enum.
+     * Picks a random element from the Direction enum.
      *
      * @return      random direction
      */
@@ -31,7 +31,7 @@ public enum Direction {
      * Used as a simple way of indicating to user the direction in which the movement
      * needs to be performed in "quick time events".
      *
-     * @return      string corresponding to a given direction
+     * @return      {@link String} corresponding to a given direction
      * @see         com.example.sznake.gameCore.QTE
      */
     @NonNull
