@@ -16,7 +16,7 @@ public class GrowUpField extends BonusField {
      * Creates a new GrowUpField with specified coordinates
      * and default green color.
      * <p>
-     * Calls parent's constructor.
+     * Uses base class constructor.
      *
      * @param x coordinate along x axis
      * @param y coordinate along y axis

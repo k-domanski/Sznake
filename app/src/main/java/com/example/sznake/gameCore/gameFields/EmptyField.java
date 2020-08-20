@@ -12,7 +12,7 @@ public class EmptyField extends GameField {
      * Creates a new EmptyField with specified coordinates
      * and default color.
      * <p>
-     * Calls parent's constructor.
+     * Uses base class constructor.
      * 
      * @param x  coordinate along x axis
      * @param y  coordinate along y axis
