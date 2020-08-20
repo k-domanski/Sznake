@@ -14,8 +14,8 @@ public class BlockedField extends GameField {
      * Creates a new BlockedField with specified coordinates
      * and default black color.
      * <p>
-     * Calls parent's constructor.
-     * 
+     * Uses base class constructor.
+     *
      * @param x  field coordinate along x axis
      * @param y  field coordinate along y axis
      * @see GameField#GameField(int, int, int) 

@@ -11,7 +11,7 @@ public abstract class BonusField extends GameField {
     /**
      * Creates a new BonusField with specified coordinates and color.
      * <p>
-     * Calls parent's constructor.
+     * Uses base class constructor.
      * 
      * @param x      field coordinate along x axis
      * @param y      field coordinate along y axis
