@@ -6,7 +6,7 @@ package com.example.sznake.gameCore;
 public enum DifficultyLevel {
     /**
      * There are no {@link com.example.sznake.gameCore.gameFields.BlockedField}
-     * on the {@link GameBoard}
+     * on the {@link GameBoard}.
      */
     EASY,
     /**
@@ -16,7 +16,7 @@ public enum DifficultyLevel {
     MEDIUM,
     /**
      * All the edges of {@link GameBoard} are made with
-     * {@link com.example.sznake.gameCore.gameFields.BlockedField}
+     * {@link com.example.sznake.gameCore.gameFields.BlockedField}.
      */
     HARD
 }
