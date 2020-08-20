@@ -5,17 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.renderscript.ScriptGroup;
 
 import com.example.sznake.gameCore.Game;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Blob;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
@@ -64,19 +61,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.insert(FIRST_TABLE_NAME,null,values);
         database.close();
 
-
         objectOutputStream.close();
         byteArrayOutputStream.close();
-
     }
 
-    public void clearGames(){
+    public void clearGames() {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(FIRST_TABLE_NAME,null,null);
         database.close();
     }
 
-    public void savePoints(int points){
+    public void savePoints(int points) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_Points,points);
@@ -89,30 +84,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.query(FIRST_TABLE_NAME,FIRST_COLUMNS,null,
                 null,null,null,KEY_ID,null);
-        if(cursor!=null && cursor.moveToLast()){
+        if (cursor != null && cursor.moveToLast()) {
             byte[] buffor = cursor.getBlob(1);
-            if(buffor!=null) {
+            if (buffor != null) {
                 ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buffor));
                 game = (Game)ois.readObject();
                 ois.close();
-
             }
             cursor.close();
             database.close();
-
-
 
         }
         return game;
     }
 
-    public int getHighestScore(){
+    public int getHighestScore() {
         int highscore = 0;
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.query(SECOND_TABLE_NAME,SECOND_COLUMNS,null,
                 null,null,null,KEY_Points,null);
-        if(cursor!=null && cursor.moveToLast()){
-            highscore=cursor.getInt(0);
+        if (cursor != null && cursor.moveToLast()) {
+            highscore = cursor.getInt(0);
             cursor.close();
         }
         database.close();

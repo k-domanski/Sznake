@@ -3,7 +3,6 @@ package com.example.sznake.gameCore;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.SurfaceHolder;
 
 import com.example.sznake.activities.MainActivity;
 import com.example.sznake.utils.Direction;
@@ -38,14 +37,6 @@ public class Game implements Serializable {
         QTEMultiplier=1;
     }
 
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
     public void moveSnake() {
         Snake snake = gameBoard.getSnake();
         GameField nextLocation = gameBoard.getSnakeNextLocation();
@@ -61,7 +52,6 @@ public class Game implements Serializable {
         gameBoard.getFields()[snakeField.getX()][snakeField.getY()] = snakeField;
     }
 
-
     public void generateUpgrade() {
         if (gameBoard.get(upgradeX, upgradeY).getClass() != EmptyField.class) {
             Random generator = new Random();
@@ -76,26 +66,17 @@ public class Game implements Serializable {
         }
     }
 
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
-        m_difficultyLevel = difficultyLevel;
-    }
-
     public void createBorder() {
-        int sizeX = gameBoard.getSizeX();
-        int sizeY = gameBoard.getSizeY();
-        int x;
-        int y;
         for (GameField[] fields : gameBoard.getFields())
         {
             for (GameField field : fields)
             {
-                x = field.getX();
-                y = field.getY();
-                boolean isEdge = (x == 0 || y == 0 || x == sizeX - 1 || y == sizeY - 1);
-                boolean isCorner = !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5) && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
-                if (isEdge && (m_difficultyLevel == DifficultyLevel.HARD || (m_difficultyLevel == DifficultyLevel.MEDIUM && !isCorner)))
+                boolean isEdge = gameBoard.isEdge(field);
+                boolean isCorner = gameBoard.isCorner(field);
+                if (isEdge && (m_difficultyLevel == DifficultyLevel.HARD
+                        || (m_difficultyLevel == DifficultyLevel.MEDIUM && !isCorner)))
                 {
-                    gameBoard.setBlocked(x, y);
+                    gameBoard.setBlocked(field.getX(), field.getY());
                 }
             }
         }
@@ -116,6 +97,10 @@ public class Game implements Serializable {
         if(shouldTriggerQTE()){
             qte=new QTE(3000);
         }
+    }
+
+    public void addBonusPoints(int amount) {
+        points += amount;
     }
 
     private boolean shouldTriggerQTE() {
@@ -139,19 +124,38 @@ public class Game implements Serializable {
         }
     }
 
-    public void draw(Canvas canvas, SurfaceHolder surfaceHolder, Paint paint, int blockSize) {
+    public boolean isQTEActive(){
+        if(qte==null){
+            return false;
+        }
+        else return qte.isQTEActive();
+    }
+
+    public void draw(Canvas canvas, Paint paint, int blockSize) {
 
         canvas.drawColor(Color.argb(255, 26, 128, 182));
 
         for (GameField[] rows : gameBoard.getFields()) {
             for (GameField field : rows) {
-                field.draw(canvas, surfaceHolder, paint, blockSize);
+                field.draw(canvas, paint, blockSize);
             }
         }
     }
 
     public int getPoints() {
         return points;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public QTE getQte() {
+        return qte;
     }
 
     public void setUpgradeColor(int color)
@@ -165,18 +169,8 @@ public class Game implements Serializable {
         upgradeY = newY;
     }
 
-    public void addBonusPoints(int amount) {
-        points += amount;
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+        m_difficultyLevel = difficultyLevel;
     }
 
-    public boolean isQTEActive(){
-        if(qte==null){
-            return false;
-        }
-        else return qte.isQTEActive();
-    }
-
-    public QTE getQte() {
-        return qte;
-    }
 }

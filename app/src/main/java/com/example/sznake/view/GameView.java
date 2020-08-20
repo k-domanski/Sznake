@@ -120,7 +120,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (surfaceHolder.getSurface().isValid()) {
                     canvas = surfaceHolder.lockCanvas();
-                    game.draw(canvas, surfaceHolder, paint, blockSize);
+                    game.draw(canvas, paint, blockSize);
                     drawPoints();
                     if(game.isQTEActive()){
 
