@@ -2,7 +2,6 @@ package com.example.sznake.gameCore.gameFields;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.view.SurfaceHolder;
 
 import java.io.Serializable;
 

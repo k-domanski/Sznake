@@ -16,7 +16,7 @@ public abstract class BonusField extends GameField {
      * @param x      field coordinate along x axis
      * @param y      field coordinate along y axis
      * @param color  field color
-     * @see GameField#GameField(int, int, int) 
+     * @see GameField#GameField(int, int, int)
      */
     protected BonusField(int x, int y, int color) {
         super(x, y, color);
