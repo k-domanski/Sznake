@@ -31,38 +31,10 @@ public class MainActivity extends AppCompatActivity {
     static public AudioManager audioManager;
     private SensorManager mSensorManager;
     private Sensor proximitySensor;
-    private DifficultyLevel difficultyLevel=DifficultyLevel.MEDIUM;
+    private DifficultyLevel difficultyLevel=DifficultyLevel.EASY;
     private TextView DifficultyView;
-    private float sensorPreviousValue;
+    private SensorEventListener proximitySensorListener;
 
-    private SensorEventListener proximitySensorListener = new SensorEventListener() {
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float prox = event.values[0];
-            if(prox-sensorPreviousValue==5) {
-                if (difficultyLevel.equals(DifficultyLevel.MEDIUM)) {
-                    difficultyLevel = DifficultyLevel.HARD;
-                    DifficultyView.setTextColor(Color.RED);
-                    DifficultyView.setText(difficultyLevel.toString());
-                } else if (difficultyLevel.equals(DifficultyLevel.EASY)) {
-                    difficultyLevel = DifficultyLevel.MEDIUM;
-                    DifficultyView.setTextColor(Color.YELLOW);
-                    DifficultyView.setText(difficultyLevel.toString());
-                } else {
-                    difficultyLevel = DifficultyLevel.EASY;
-                    DifficultyView.setTextColor(Color.GREEN);
-                    DifficultyView.setText(difficultyLevel.toString());
-                }
-            }
-            sensorPreviousValue=prox;
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -72,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         proximitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         audioManager = new AudioManager(MainActivity.this);
-        DifficultyView = (TextView)findViewById(R.id.difficulty);
+        DifficultyView = findViewById(R.id.difficulty);
+        DifficultyView.setTextColor(Color.GREEN);
+        DifficultyView.setText(difficultyLevel.toString());
 
         findViewById(R.id.volumeCtrl).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +94,33 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        proximitySensorListener = new SensorEventListener() {
+
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float prox = event.values[0];
+                if(prox == 0) {
+                    if (difficultyLevel.equals(DifficultyLevel.MEDIUM)) {
+                        difficultyLevel = DifficultyLevel.HARD;
+                        DifficultyView.setTextColor(Color.RED);
+                        DifficultyView.setText(difficultyLevel.toString());
+                    } else if (difficultyLevel.equals(DifficultyLevel.EASY)) {
+                        difficultyLevel = DifficultyLevel.MEDIUM;
+                        DifficultyView.setTextColor(Color.YELLOW);
+                        DifficultyView.setText(difficultyLevel.toString());
+                    } else {
+                        difficultyLevel = DifficultyLevel.EASY;
+                        DifficultyView.setTextColor(Color.GREEN);
+                        DifficultyView.setText(difficultyLevel.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
     }
 
     @Override
@@ -159,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         int highscore=0;
         highscore=databaseHandler.getHighestScore();
-        TextView scoreView = (TextView)findViewById(R.id.hpoints);
+        TextView scoreView = findViewById(R.id.hpoints);
         scoreView.setText(String.valueOf(highscore));
         try {
-            TextView textView = (TextView)findViewById(R.id.load);
+            TextView textView = findViewById(R.id.load);
             if(databaseHandler.getGame()==null){
                 textView.setVisibility(View.INVISIBLE);
             }
