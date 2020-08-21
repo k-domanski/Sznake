@@ -23,7 +23,7 @@ public class Game implements Serializable {
     private int points = 0;
     private boolean isDead;
     private boolean failedQTE;
-    private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
+    private DifficultyLevel m_difficultyLevel;
     private GrowUpField upgrade;
     private QTE qte;
     private int QTEMultiplier;
@@ -38,12 +38,15 @@ public class Game implements Serializable {
      * @param snakeSize amount of fields the snake is initially consisting of
      * @param initialSnakeDirection decides whether snake begins game facing up, down, left or right
      */
-    public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection) {
-        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection);
+    public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,DifficultyLevel difficultyLevel) {
+        m_difficultyLevel=difficultyLevel;
+        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection,difficultyLevel);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
         upgrade = new GrowUpField(upgradeX, upgradeY);
         QTEMultiplier = 1;
+
+        generateUpgrade();
     }
 
     /**
@@ -83,25 +86,6 @@ public class Game implements Serializable {
         }
     }
 
-    /**
-     * Changes GameFields at the edge of {@link GameBoard} to {@link BlockedField}s.
-     * The exact pattern depends on  {@link DifficultyLevel} value.
-     */
-    public void createBorder() {
-        for (GameField[] fields : gameBoard.getFields())
-        {
-            for (GameField field : fields)
-            {
-                boolean isEdge = gameBoard.isEdge(field);
-                boolean isCorner = gameBoard.isCorner(field);
-                if (isEdge && (m_difficultyLevel == DifficultyLevel.HARD
-                        || (m_difficultyLevel == DifficultyLevel.MEDIUM && !isCorner)))
-                {
-                    gameBoard.setBlocked(field.getX(), field.getY());
-                }
-            }
-        }
-    }
 
     /**
      *
