@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import java.io.Serializable;
 
 /**
- * GameField is an abstract base class for all other types of fields.
+ * Is an abstract base class for all other types of fields.
  * It represents a single field on board.
  *
  * @see BlockedField

@@ -98,6 +98,8 @@ public class GameView extends SurfaceView implements Runnable {
         while (isPlaying) {
             isPaused = proximityService.isPaused();
             if (isUpdateRequired() && !isPaused) {
+                game.setUpgradePosition(magnetometerService.getRandX(),
+                        magnetometerService.getRandY());
                 game.update();
                 game.setUpgradeColor(accelerometerService.getColor());
                 if(!game.getGameBoard().getSnake().getDirection().isOpposite(
@@ -105,8 +107,6 @@ public class GameView extends SurfaceView implements Runnable {
                 {
                     game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
                 }
-                game.setUpgradePosition(magnetometerService.getRandX(),
-                        magnetometerService.getRandY());
 
                 if(game.isQTEActive()){
                     game.checkQTE(accelerometerService.getX_value(),

@@ -15,13 +15,14 @@ import com.example.sznake.gameCore.gameFields.SnakeField;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Is a class managing game logic
+ */
 public class Game implements Serializable {
-
     private GameBoard gameBoard;
     private int points = 0;
     private boolean isDead;
     private boolean failedQTE;
-
     private DifficultyLevel m_difficultyLevel = DifficultyLevel.MEDIUM;
     private GrowUpField upgrade;
     private QTE qte;
@@ -29,6 +30,14 @@ public class Game implements Serializable {
     private int upgradeX;
     private int upgradeY;
 
+    /**
+     * Creates a new Game with specified dimensions, snake length and initial direction the snake is facing
+     *
+     * @param sizeX amount of fields along X axis the gameBoard is going to have
+     * @param sizeY amount of fields along Y axis the gameBoard is going to have
+     * @param snakeSize amount of fields the snake is initially consisting of
+     * @param initialSnakeDirection decides whether snake begins game facing up, down, left or right
+     */
     public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection) {
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
@@ -37,6 +46,10 @@ public class Game implements Serializable {
         QTEMultiplier = 1;
     }
 
+    /**
+     * Replaces the {@link GameField} next to the snake in the direction that snake is facing with {@link SnakeField} and replaces last of snakeFields with {@link EmptyField},
+     * unless value of {@link Snake}'s isGrowing() method  is equal to true
+     */
     public void moveSnake() {
         Snake snake = gameBoard.getSnake();
         GameField nextLocation = gameBoard.getSnakeNextLocation();
@@ -52,6 +65,10 @@ public class Game implements Serializable {
         gameBoard.getFields()[snakeField.getX()][snakeField.getY()] = snakeField;
     }
 
+    /**
+     * Checks if field located under current upgradeX and upgradeY values is {@link EmptyField}, if so, then it changes it to {@link GrowUpField},
+     * otherwise it generates new random values for upgradeX and upgradeY fields, and recursively calls itself
+     */
     public void generateUpgrade() {
         if (gameBoard.get(upgradeX, upgradeY).getClass() != EmptyField.class) {
             Random generator = new Random();
@@ -66,6 +83,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Changes GameFields at the edge of {@link GameBoard} to {@link BlockedField}s.
+     * The exact pattern depends on  {@link DifficultyLevel} value.
+     */
     public void createBorder() {
         for (GameField[] fields : gameBoard.getFields())
         {
@@ -82,6 +103,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     *
+     */
     public void update() {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         moveSnake();
@@ -99,6 +123,11 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Increases points value by given amount
+     *
+     * @param amount by which points will be increased
+     */
     public void addBonusPoints(int amount) {
         points += amount;
     }
@@ -107,6 +136,12 @@ public class Game implements Serializable {
         return points != 0 && points % 10 == 0 && !failedQTE && qte == null;
     }
 
+    /**
+     * Verifies if {@link QTE} is active, and if the move required to finish it has been done, or if it has expired and needs to be deleted
+     *
+     * @param X current acceleration in X axis, where 1 means acceleration to the right, -1 acceleration to the left, and 0 no acceleration.
+     * @param Y current acceleration in Y axis, where 1 means acceleration up, -1 acceleration down, and 0 no acceleration.
+     */
     public void checkQTE(int X,int Y){
         if (qte == null) {
             return;
@@ -123,6 +158,10 @@ public class Game implements Serializable {
         }
     }
 
+    /** Returns activity status of {@link QTE}
+     *
+     * @return true if QTE is still waiting to be completed, false if it has expired or doesn't exist
+     */
     public boolean isQTEActive() {
         if (qte == null) {
             return false;
@@ -141,18 +180,34 @@ public class Game implements Serializable {
         }
     }
 
+    /** Returns amount of points gathered during game
+     *
+     * @return points value
+     */
     public int getPoints() {
         return points;
     }
 
+    /** Returns the object containing list of {@link GameField}s of current game.
+     *
+     * @return {@link GameBoard} object of current game
+     */
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
+    /** Returns true if {@link Snake} object hit an obstacle, otherwise false
+     *
+     * @return true if {@link Snake} object hit an obstacle, otherwise false
+     */
     public boolean isDead() {
         return isDead;
     }
 
+    /**
+     *
+     * @return
+     */
     public QTE getQte() {
         return qte;
     }
@@ -162,12 +217,21 @@ public class Game implements Serializable {
         upgrade.setColor(color);
     }
 
+    /**
+     *
+     * @param newX
+     * @param newY
+     */
     public void setUpgradePosition(int newX, int newY)
     {
         upgradeX = newX;
         upgradeY = newY;
     }
 
+    /**
+     *
+     * @param difficultyLevel
+     */
     public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
         m_difficultyLevel = difficultyLevel;
     }
