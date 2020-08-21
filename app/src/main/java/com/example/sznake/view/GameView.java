@@ -57,7 +57,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
 
 
-    public GameView(Context context, Point size, Game game) {
+    public GameView(Context context, Point size, Game game,DifficultyLevel difficultyLevel) {
         super(context);
         screenX = size.x;
         screenY = size.y;
@@ -84,7 +84,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         changeSupport = new PropertyChangeSupport(this);
         if(game==null) {
-            newGame();
+            newGame(difficultyLevel);
         }
         else {
             loadGame(game);
@@ -199,8 +199,8 @@ public class GameView extends SurfaceView implements Runnable {
         return gameOver;
     }
 
-    private void newGame() {
-        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection(),DifficultyLevel.HARD);
+    private void newGame(DifficultyLevel difficultyLevel) {
+        game = new Game(NUM_BLOCKS_WIDE, numBlocksHigh, 5, gyroscopeService.getDirection(),difficultyLevel);
         nextFrameTime = System.currentTimeMillis();
     }
     private void loadGame(Game game){
