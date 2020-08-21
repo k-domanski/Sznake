@@ -34,7 +34,7 @@ public class Game implements Serializable {
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
         upgrade = new GrowUpField(upgradeX, upgradeY);
-        QTEMultiplier=1;
+        QTEMultiplier = 1;
     }
 
     public void moveSnake() {
@@ -86,15 +86,15 @@ public class Game implements Serializable {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
         moveSnake();
         if (nextFieldType == GrowUpField.class) {
-
             points++;
             MainActivity.audioManager.onGrowUpPicked();
             gameBoard.getSnake().setGrowing(true);
             generateUpgrade();
+
         } else if (nextFieldType == BlockedField.class || nextFieldType == SnakeField.class) {
             isDead = true;
         }
-        if(shouldTriggerQTE()){
+        if (shouldTriggerQTE()) {
             qte=new QTE(3000);
         }
     }
@@ -108,24 +108,23 @@ public class Game implements Serializable {
     }
 
     public void checkQTE(int X,int Y){
-        if(qte==null){
+        if (qte == null) {
             return;
         }
-        if(!qte.isQTEActive()){
-            qte=null;
-            failedQTE=true;
+        if (!qte.isQTEActive()) {
+            qte = null;
+            failedQTE = true;
             return;
         }
-        if(qte.checkQTE(X, Y)){
-            addBonusPoints(10*QTEMultiplier-1);
+        if (qte.checkQTE(X, Y)) {
+            addBonusPoints(10 * QTEMultiplier - 1);
             QTEMultiplier++;
-            qte=null;
-
+            qte = null;
         }
     }
 
-    public boolean isQTEActive(){
-        if(qte==null){
+    public boolean isQTEActive() {
+        if (qte == null) {
             return false;
         }
         else return qte.isQTEActive();
