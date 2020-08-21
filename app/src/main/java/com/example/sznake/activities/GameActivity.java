@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.example.sznake.dao.DatabaseHandler;
+import com.example.sznake.gameCore.DifficultyLevel;
 import com.example.sznake.gameCore.Game;
 import com.example.sznake.view.GameView;
 
@@ -22,6 +23,7 @@ public class GameActivity extends AppCompatActivity {
     GameView gameView;
 
     public PropertyChangeListener changeListener;
+    DifficultyLevel difficultyLevel;
 
 
     @Override
@@ -46,8 +48,10 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-        gameView = new GameView(this, size,game);
+        else {
+            difficultyLevel = (DifficultyLevel) getIntent().getSerializableExtra("difficulty");
+        }
+        gameView = new GameView(this, size,game,difficultyLevel);
         changeListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
