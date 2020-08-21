@@ -20,17 +20,8 @@ public class GameBoard implements Serializable {
         snake = new Snake(snakeSize, initialSnakeDirection,sizeX / 2,sizeY / 2);
         fields= new GameField[sizeX][sizeY];
 
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++){
-                fields[i][j] = new EmptyField(i,j);
-            }
-        }
-
-        for(int i = 0; i < snake.getLength(); i++) {
-            int snakeX=snake.get(i).getX();
-            int snakeY=snake.get(i).getY();
-            fields[snakeX][snakeY]=snake.get(i);
-        }
+        createEmptyFields();
+        addSnake();
 
     }
 
@@ -81,6 +72,22 @@ public class GameBoard implements Serializable {
         int y = field.getY();
         return !((x > (sizeX / 2) + 5 || x < (sizeX / 2) - 5)
                 && (y > (sizeY / 2) + 5 || y < (sizeY / 2) - 5));
+    }
+
+    private void addSnake() {
+        for(int i = 0; i < snake.getLength(); i++) {
+            int snakeX = snake.get(i).getX();
+            int snakeY = snake.get(i).getY();
+            fields[snakeX][snakeY] = snake.get(i);
+        }
+    }
+
+    private void createEmptyFields() {
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                fields[i][j] = new EmptyField(i,j);
+            }
+        }
     }
 
     public Snake getSnake() {

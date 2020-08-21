@@ -16,21 +16,29 @@ public class Snake implements Serializable {
     public Snake(int length, Direction direction, int X, int Y) {
         body = new ArrayList<>();
         for (int i = 0; i < length; i++) {
-            if(direction == Direction.UP){
-
-                body.add(new SnakeField(X, Y+i ));
+            if(direction == Direction.UP) {
+                body.add(new SnakeField(X, Y + i ));
             }
-            else if(direction == Direction.DOWN){
-                body.add(new SnakeField(X, Y-i ));
+            else if(direction == Direction.DOWN) {
+                body.add(new SnakeField(X, Y - i ));
             }
-            else if(direction == Direction.LEFT){
-                body.add(new SnakeField(X+i, Y ));
+            else if(direction == Direction.LEFT) {
+                body.add(new SnakeField(X + i, Y ));
             }
-            else if(direction == Direction.RIGHT){
-                body.add(new SnakeField(X-i, Y ));
+            else if(direction == Direction.RIGHT) {
+                body.add(new SnakeField(X - i, Y ));
             }
         }
         this.direction = direction;
+
+    }
+
+    public void move(SnakeField snakeField) {
+        body.add(0, snakeField);
+        if (!isGrowing) {
+            body.remove(body.size() - 1);
+        }
+        isGrowing = false;
 
     }
 
@@ -42,11 +50,9 @@ public class Snake implements Serializable {
         return body.get(body.size() - 1);
     }
 
-
     public int getLength() {
         return body.size();
     }
-
 
     public Direction getDirection() {
         return direction;
@@ -54,16 +60,6 @@ public class Snake implements Serializable {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public void move(SnakeField snakeField) {
-
-        body.add(0, snakeField);
-        if (!isGrowing) {
-            body.remove(body.size() - 1);
-        }
-        isGrowing = false;
-
     }
 
     public boolean isGrowing() {
