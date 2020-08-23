@@ -14,7 +14,7 @@ import com.example.sznake.gameCore.DifficultyLevel;
  */
 public class ProximityService extends SensorService {
     /**
-     * Difficulty level based on proximity sensor
+     * Difficulty level based on proximity sensor.
      */
     private DifficultyLevel difficultyLevel = DifficultyLevel.EASY;
 

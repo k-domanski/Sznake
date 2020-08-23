@@ -41,10 +41,10 @@ public class QTE implements Serializable {
 
     public void draw(Canvas canvas, Paint paint, int screenX, int screenY ) {
         if(color == Color.WHITE) {
-            color=Color.RED;
+            color = Color.RED;
         }
         else {
-            color=Color.WHITE;
+            color = Color.WHITE;
         }
         paint.setColor(color);
         paint.setAlpha(70);
