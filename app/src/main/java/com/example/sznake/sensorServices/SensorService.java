@@ -72,4 +72,8 @@ public abstract class SensorService {
      * @param sensorEventValues
      */
     public abstract void onTranslation(float[] sensorEventValues);
+
+    public void setSensorEventListener(SensorEventListener sensorEventListener) {
+        this.sensorEventListener = sensorEventListener;
+    }
 }
