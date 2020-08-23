@@ -5,12 +5,12 @@ import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
+import com.example.sznake.utils.Direction;
+
 public class AccelerometerService extends SensorService {
 
     private static final float ACC_TRESHOLD = 1.0f;
-    int m_color = Color.GREEN;
-    int x_value;
-    int y_value;
+    private Direction direction;
 
 
     public AccelerometerService(Context context) {
@@ -21,32 +21,26 @@ public class AccelerometerService extends SensorService {
     public void onTranslation(float[] sensorEventValues) {
         float transX = sensorEventValues[0];
         float transY = sensorEventValues[1];
+        setDirection(transX, transY);
+    }
+
+    private void setDirection(float transX, float transY) {
         if(transX > ACC_TRESHOLD) {
-            m_color = Color.RED;
-            x_value=1;
+            direction = Direction.UP;
         }
         else if(transX < -ACC_TRESHOLD) {
-            m_color = Color.GREEN;
-            x_value=-1;
+            direction = Direction.DOWN;
         }
         if(transY > ACC_TRESHOLD) {
-            y_value=1;
+            direction = Direction.LEFT;
         }
         else if(transY < -ACC_TRESHOLD) {
-            y_value=-1;
+            direction = Direction.RIGHT;
         }
     }
 
-    public int getColor() {
-        return m_color;
-    }
-
-    public int getX_value() {
-        return x_value;
-    }
-
-    public int getY_value() {
-        return y_value;
+    public Direction getDirection() {
+        return direction;
     }
 }
 
