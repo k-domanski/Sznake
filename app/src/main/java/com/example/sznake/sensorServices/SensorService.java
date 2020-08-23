@@ -13,27 +13,34 @@ import android.hardware.SensorManager;
  */
 public abstract class SensorService {
     /**
-     *
+     * An instance of {@link SensorManager}.
      */
     protected SensorManager sensorManager;
     /**
-     *
+     * An instance of {@link Sensor}.
      */
     protected Sensor sensor;
     /**
+     * Sensor listener.
      *
+     * @see SensorEventListener
      */
     protected SensorEventListener sensorEventListener;
     /**
+     * The rate sensor events are delivered at.
      *
+     * @see SensorManager#registerListener(SensorEventListener, Sensor, int)
      */
     int m_sensorDelay;
 
     /**
+     * Creates specified SensorService.
      *
-     * @param context
-     * @param sensorType
-     * @param sensorDelay
+     * @param context       specified {@link Context}
+     * @param sensorType    type of sensor
+     * @param sensorDelay   the rate sensor events are delivered at
+     * @see Context
+     * @see SensorManager#getDefaultSensor(int)
      */
     protected SensorService(Context context, int sensorType, int sensorDelay)
     {
@@ -54,26 +61,33 @@ public abstract class SensorService {
     }
 
     /**
+     * Registers listener.
      *
+     * @see SensorManager#registerListener(SensorEventListener, Sensor, int)
      */
     public void register() {
         sensorManager.registerListener(sensorEventListener, sensor, m_sensorDelay);
     }
 
     /**
+     * Unregisters listener.
      *
+     * @see SensorManager#unregisterListener(SensorEventListener)
      */
     public void unregister() {
         sensorManager.unregisterListener(sensorEventListener);
     }
 
     /**
+     * Used to implement specific behaviour whenever the values of sensor change.
      *
-     * @param sensorEventValues
+     * @param sensorEventValues values of monitored sensor.
+     * @see SensorEvent#values
      */
     public abstract void onTranslation(float[] sensorEventValues);
 
     /**
+     * 
      *
      * @param sensorEventListener
      */
