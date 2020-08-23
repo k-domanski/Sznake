@@ -56,7 +56,7 @@ public class Game implements Serializable {
      * <p>
      * Replaces the {@link GameField} next to the snake in the direction that snake is facing
      * with {@link SnakeField} and replaces last of snakeFields with {@link EmptyField},
-     * unless value of {@link Snake}'s isGrowing() method  is equal to true
+     * unless value of {@link Snake}'s isGrowing() method  is equal to true.
      */
     public void moveSnake() {
         Snake snake = gameBoard.getSnake();
@@ -115,9 +115,9 @@ public class Game implements Serializable {
     }
 
     /**
-     * Increases points value by given amount
+     * Increases points value by given amount.
      *
-     * @param amount by which points will be increased
+     * @param amount by which points will be increased.
      */
     public void addBonusPoints(int amount) {
         points += amount;
