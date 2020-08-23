@@ -12,7 +12,7 @@ import com.example.sznake.utils.Direction;
  * <p>
  * Responsible for {@link Direction} change based on output from accelerometer sensor.
  * Used for quick time events.
- * 
+ *
  * @see com.example.sznake.gameCore.QTE
  */
 public class AccelerometerService extends SensorService {
@@ -52,14 +52,14 @@ public class AccelerometerService extends SensorService {
     /**
      * Sets direction according to values of acceleration force.
      *
-     * @param transX  acceleration force along x-axis, if the transX parameter is positive and
-     *                greater than {@link #ACC_TRESHOLD} direction changes to RIGHT; if transX
-     *                parameter is negative and smaller than negative value of
-     *                {@link #ACC_TRESHOLD} direction changes to LEFT.
-     * @param transY  acceleration force along y-axis, If the transY parameter is positive and
-     *                greater than {@link #ACC_TRESHOLD} direction changes to UP; if transY
-     *                parameter is negative and smaller than negative value of
-     *                {@link #ACC_TRESHOLD} direction changes to DOWN.
+     * @param transX  acceleration force along x-axis, if positive and greater than
+     *                {@link #ACC_TRESHOLD} direction changes to RIGHT; if negative
+     *                and smaller than negative value of {@link #ACC_TRESHOLD}
+     *                direction changes to LEFT.
+     * @param transY  acceleration force along y-axis, if positive and greater than
+     *                {@link #ACC_TRESHOLD} direction changes to UP; if negative
+     *                and smaller than negative value of {@link #ACC_TRESHOLD}
+     *                direction changes to DOWN.
      */
     private void setDirection(float transX, float transY) {
         if(transX > ACC_TRESHOLD) {
