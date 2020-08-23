@@ -87,7 +87,7 @@ public abstract class SensorService {
     public abstract void onTranslation(float[] sensorEventValues);
 
     /**
-     * 
+     *
      *
      * @param sensorEventListener
      */
