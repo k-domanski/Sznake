@@ -47,19 +47,15 @@ public class GyroscopeService extends SensorService {
 
     /**
      * Changes direction based on gyroscope values.
-     * <p>
-     * If the valX parameter is positive and greater than {@link #GYRO_TRESHOLD}
-     * direction changes to RIGHT;
-     * if valX parameter is negative and smaller than negative value of {@link #GYRO_TRESHOLD}
-     * direction changes to LEFT.
-     * If the valY parameter is positive and greater than {@link #GYRO_TRESHOLD}
-     * direction changes to UP;
-     * if valY parameter is negative and smaller than negative value of {@link #GYRO_TRESHOLD}
-     * direction changes to DOWN.
      *
-     *
-     * @param valX  angular speed around the x-axis
-     * @param valY  angular speed around the y-axis
+     * @param valX  angular speed around the x-axis, if the valX parameter is positive and
+     *              greater than {@link #GYRO_TRESHOLD} direction changes to RIGHT; if valX
+     *              parameter is negative and smaller than negative value of
+     *              {@link #GYRO_TRESHOLD} direction changes to LEFT.
+     * @param valY  angular speed around the y-axis, if the valY parameter is positive and
+     *              greater than {@link #GYRO_TRESHOLD} direction changes to UP; if valY
+     *              parameter is negative and smaller than negative value of
+     *              {@link #GYRO_TRESHOLD} direction changes to DOWN.
      */
     private void changeDirection(float valX, float valY) {
         if (valY > GYRO_TRESHOLD) {
