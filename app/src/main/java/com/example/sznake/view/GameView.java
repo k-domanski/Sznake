@@ -69,7 +69,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         gyroscopeService = new GyroscopeService(context);
 
-        //PROXIMITY
         proximityService = new ProximityService(context);
 
         try {
@@ -94,7 +93,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-        int qtecolor=Color.WHITE;
         while (isPlaying) {
             isPaused = proximityService.isPaused();
             if (isUpdateRequired() && !isPaused) {
@@ -102,8 +100,7 @@ public class GameView extends SurfaceView implements Runnable {
                         magnetometerService.getRandY());
                 game.update();
                 if(!game.getGameBoard().getSnake().getDirection().isOpposite(
-                        gyroscopeService.getDirection()))
-                {
+                        gyroscopeService.getDirection())) {
                     game.getGameBoard().getSnake().setDirection(gyroscopeService.getDirection());
                 }
 
@@ -120,19 +117,9 @@ public class GameView extends SurfaceView implements Runnable {
                     canvas = surfaceHolder.lockCanvas();
                     game.draw(canvas, paint, blockSize);
                     drawPoints();
-                    if(game.isQTEActive()){
 
-                        if(qtecolor ==Color.WHITE) {
-                            qtecolor=Color.RED;
-                        }
-                        else {
-                            qtecolor=Color.WHITE;
-                        }
-                        paint.setColor(qtecolor);
-                        paint.setAlpha(70);
-                        paint.setTextSize(500);
-                        canvas.drawText(game.getQte().getQTEDirection().toString(),
-                                screenX/2-100, screenY/2+100, paint);
+                    if(game.isQTEActive()) {
+                        game.getQte().draw(canvas, paint, screenX, screenY);
                     }
 
                     surfaceHolder.unlockCanvasAndPost(canvas);
@@ -141,7 +128,6 @@ public class GameView extends SurfaceView implements Runnable {
                 if(game.isDead()) {
                     gameOver = true;
                     this.changeSupport.firePropertyChange("gameOver",false,true);
-                    //newGame();
                 }
 
             }
@@ -185,14 +171,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public boolean isUpdateRequired() {
-
         if(nextFrameTime <= System.currentTimeMillis()) {
             nextFrameTime = System.currentTimeMillis() + MILLIS_PER_SECOND / FPS;
             return true;
         }
-
         return false;
     }
+
     public boolean isGameOver() {
         return gameOver;
     }

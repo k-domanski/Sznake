@@ -13,18 +13,16 @@ public class GameBoard implements Serializable {
     private int sizeY;
     private GameField[][] fields;
     private Snake snake;
-    private DifficultyLevel difficultyLevel;
 
-    public GameBoard(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,DifficultyLevel difficultyLevel) {
+    public GameBoard(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection, DifficultyLevel difficultyLevel) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.difficultyLevel=difficultyLevel;
         snake = new Snake(snakeSize, initialSnakeDirection,sizeX / 2,sizeY / 2);
         fields= new GameField[sizeX][sizeY];
 
         createEmptyFields();
         addSnake();
-        createBorder();
+        createBorder(difficultyLevel);
 
     }
 
@@ -114,7 +112,7 @@ public class GameBoard implements Serializable {
         fields[x][y] = new BlockedField(x, y);
     }
 
-    public void createBorder() {
+    public void createBorder(DifficultyLevel difficultyLevel) {
         for (GameField[] fields : getFields())
         {
             for (GameField field : fields)
