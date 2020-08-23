@@ -101,7 +101,6 @@ public class GameView extends SurfaceView implements Runnable {
                 game.setUpgradePosition(magnetometerService.getRandX(),
                         magnetometerService.getRandY());
                 game.update();
-                game.setUpgradeColor(accelerometerService.getColor());
                 if(!game.getGameBoard().getSnake().getDirection().isOpposite(
                         gyroscopeService.getDirection()))
                 {
@@ -109,8 +108,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 if(game.isQTEActive()){
-                    game.checkQTE(accelerometerService.getX_value(),
-                            accelerometerService.getY_value());
+                    game.checkQTE(accelerometerService.getDirection());
                 }
 
                 android.provider.Settings.System.putInt(

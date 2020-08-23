@@ -31,12 +31,14 @@ public class Game implements Serializable {
     private int upgradeY;
 
     /**
-     * Creates a new Game with specified dimensions, snake length and initial direction the snake is facing
+     * Creates a new Game with specified dimensions, snake length and
+     * initial direction the snake is facing.
      *
-     * @param sizeX amount of fields along X axis the gameBoard is going to have
-     * @param sizeY amount of fields along Y axis the gameBoard is going to have
-     * @param snakeSize amount of fields the snake is initially consisting of
-     * @param initialSnakeDirection decides whether snake begins game facing up, down, left or right
+     * @param sizeX                 amount of fields along X axis the gameBoard is going to have
+     * @param sizeY                 amount of fields along Y axis the gameBoard is going to have
+     * @param snakeSize             amount of fields the snake is initially consisting of
+     * @param initialSnakeDirection decides whether snake begins game facing up, down,
+     *                              left or right
      */
     public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,DifficultyLevel difficultyLevel) {
         m_difficultyLevel=difficultyLevel;
@@ -50,7 +52,10 @@ public class Game implements Serializable {
     }
 
     /**
-     * Replaces the {@link GameField} next to the snake in the direction that snake is facing with {@link SnakeField} and replaces last of snakeFields with {@link EmptyField},
+     * Performs movement of {@link Snake}.
+     * <p>
+     * Replaces the {@link GameField} next to the snake in the direction that snake is facing
+     * with {@link SnakeField} and replaces last of snakeFields with {@link EmptyField},
      * unless value of {@link Snake}'s isGrowing() method  is equal to true
      */
     public void moveSnake() {
@@ -69,8 +74,11 @@ public class Game implements Serializable {
     }
 
     /**
-     * Checks if field located under current upgradeX and upgradeY values is {@link EmptyField}, if so, then it changes it to {@link GrowUpField},
-     * otherwise it generates new random values for upgradeX and upgradeY fields, and recursively calls itself
+     * Generates upgrade on the board.
+     * <p>
+     * Checks if field located under current upgradeX and upgradeY values is {@link EmptyField},
+     * if so, then it changes it to {@link GrowUpField}, otherwise it generates new random values
+     * for upgradeX and upgradeY fields, and recursively calls itself.
      */
     public void generateUpgrade() {
         if (gameBoard.get(upgradeX, upgradeY).getClass() != EmptyField.class) {
@@ -120,12 +128,12 @@ public class Game implements Serializable {
     }
 
     /**
-     * Verifies if {@link QTE} is active, and if the move required to finish it has been done, or if it has expired and needs to be deleted
+     * Verifies if {@link QTE} is active, and if the move required to finish it has been done,
+     * or if it has expired and needs to be deleted.
      *
-     * @param X current acceleration in X axis, where 1 means acceleration to the right, -1 acceleration to the left, and 0 no acceleration.
-     * @param Y current acceleration in Y axis, where 1 means acceleration up, -1 acceleration down, and 0 no acceleration.
+     * @param direction current acceleration in specified direction
      */
-    public void checkQTE(int X,int Y){
+    public void checkQTE(Direction direction){
         if (qte == null) {
             return;
         }
@@ -134,16 +142,18 @@ public class Game implements Serializable {
             failedQTE = true;
             return;
         }
-        if (qte.checkQTE(X, Y)) {
+        if (qte.checkQTE(direction)) {
             addBonusPoints(10 * QTEMultiplier - 1);
             QTEMultiplier++;
             qte = null;
         }
     }
 
-    /** Returns activity status of {@link QTE}
+    /**
+     * Returns activity status of {@link QTE}.
      *
-     * @return true if QTE is still waiting to be completed, false if it has expired or doesn't exist
+     * @return  true if QTE is still waiting to be completed,
+     *          false if it has expired or doesn't exist
      */
     public boolean isQTEActive() {
         if (qte == null) {
@@ -163,23 +173,26 @@ public class Game implements Serializable {
         }
     }
 
-    /** Returns amount of points gathered during game
+    /**
+     * Returns amount of points gathered during game.
      *
-     * @return points value
+     * @return  points value
      */
     public int getPoints() {
         return points;
     }
 
-    /** Returns the object containing list of {@link GameField}s of current game.
+    /**
+     * Returns the object containing list of {@link GameField}s of current game.
      *
-     * @return {@link GameBoard} object of current game
+     * @return  {@link GameBoard} object of current game
      */
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
-    /** Returns true if {@link Snake} object hit an obstacle, otherwise false
+    /**
+     * Checks if {@link Snake} died.
      *
      * @return true if {@link Snake} object hit an obstacle, otherwise false
      */

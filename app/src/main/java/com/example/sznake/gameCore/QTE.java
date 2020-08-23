@@ -27,14 +27,10 @@ public class QTE implements Serializable {
         return System.currentTimeMillis() < this.stopTime;
     }
 
-    public boolean checkQTE(int X, int Y) {
-        if (QTEDirection == Direction.UP && X == 1) {
+    public boolean checkQTE(Direction direction) {
+        if (QTEDirection == direction) {
             return true;
-        } else if (QTEDirection == Direction.DOWN && X == -1) {
-            return true;
-        } else if (QTEDirection == Direction.LEFT && Y == 1) {
-            return true;
-        } else return QTEDirection == Direction.RIGHT && Y == -1;
-
+        }
+        return false;
     }
 }
