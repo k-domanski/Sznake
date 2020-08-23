@@ -10,40 +10,66 @@ public enum DifficultyLevel {
      * There are no {@link com.example.sznake.gameCore.gameFields.BlockedField}
      * on the {@link GameBoard}.
      */
-    EASY,
+    EASY(Color.GREEN),
     /**
      * There are some {@link com.example.sznake.gameCore.gameFields.BlockedField}
      * in the corners of the{@link GameBoard}.
      */
-    MEDIUM,
+    MEDIUM(Color.YELLOW),
     /**
      * All the edges of {@link GameBoard} are made with
      * {@link com.example.sznake.gameCore.gameFields.BlockedField}.
      */
-    HARD;
+    HARD(Color.RED);
 
+    /**
+     * An array of available difficulty levels.
+     */
+    private static final  DifficultyLevel[] LEVELS = DifficultyLevel.values();
+    /**
+     * Corresponding color of given difficulty.
+     */
+    private int levelColor;
+
+    /**
+     * Creates DifficultyLevel with specified color.
+     *
+     * @param color difficulty level color
+     */
+    DifficultyLevel(int color) {
+        levelColor = color;
+    }
+
+    /**
+     * Returns the next difficulty level of the current one.
+     *
+     * @return  {@link DifficultyLevel#MEDIUM} if the current one is {@link DifficultyLevel#EASY},
+     *          {@link DifficultyLevel#HARD} if {@link DifficultyLevel#MEDIUM} and
+     *          {@link DifficultyLevel#EASY} if current one is {@link DifficultyLevel#HARD}
+     */
     public DifficultyLevel getNextLevel() {
-        DifficultyLevel[] values = DifficultyLevel.values();
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(this)) {
-                if (i == values.length -1) {
-                    return values[0];
+        for (int i = 0; i < LEVELS.length; i++) {
+            if (LEVELS[i].equals(this)) {
+                if (i == LEVELS.length -1) {
+                    return LEVELS[0];
                 }
                 else {
-                    return values[i +1];
+                    return LEVELS[i +1];
                 }
             }
         }
-        return null;
+        return this;
+
     }
 
+    /**
+     * Returns corresponding color of the difficulty.
+     *
+     * @return  green if {@link DifficultyLevel#EASY};
+     *          yellow if {@link DifficultyLevel#MEDIUM};
+     *          red if {@link DifficultyLevel#HARD}
+     */
     public int getLevelColor() {
-        if(this.equals(EASY)) {
-            return Color.GREEN;
-        }
-        else if(this == MEDIUM) {
-            return Color.YELLOW;
-        }
-        return Color.RED;
+        return levelColor;
     }
 }
