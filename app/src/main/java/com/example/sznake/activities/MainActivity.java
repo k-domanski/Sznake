@@ -5,13 +5,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -22,6 +20,7 @@ import com.example.sznake.AudioManager;
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.DifficultyLevel;
+import com.example.sznake.sensorServices.ProximityService;
 
 import java.io.IOException;
 
@@ -29,11 +28,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     static public AudioManager audioManager;
-    private SensorManager mSensorManager;
-    private Sensor proximitySensor;
     private DifficultyLevel difficultyLevel=DifficultyLevel.EASY;
     private TextView DifficultyView;
-    private SensorEventListener proximitySensorListener;
+    private ProximityService proximity;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -41,12 +38,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        proximitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         audioManager = new AudioManager(MainActivity.this);
         DifficultyView = findViewById(R.id.difficulty);
         DifficultyView.setTextColor(Color.GREEN);
         DifficultyView.setText(difficultyLevel.toString());
+        proximity = new ProximityService(this);
 
         findViewById(R.id.volumeCtrl).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,33 +90,21 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        proximitySensorListener = new SensorEventListener() {
 
+        proximity.setSensorEventListener(new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                float prox = event.values[0];
-                if(prox == 0) {
-                    if (difficultyLevel.equals(DifficultyLevel.MEDIUM)) {
-                        difficultyLevel = DifficultyLevel.HARD;
-                        DifficultyView.setTextColor(Color.RED);
-                        DifficultyView.setText(difficultyLevel.toString());
-                    } else if (difficultyLevel.equals(DifficultyLevel.EASY)) {
-                        difficultyLevel = DifficultyLevel.MEDIUM;
-                        DifficultyView.setTextColor(Color.YELLOW);
-                        DifficultyView.setText(difficultyLevel.toString());
-                    } else {
-                        difficultyLevel = DifficultyLevel.EASY;
-                        DifficultyView.setTextColor(Color.GREEN);
-                        DifficultyView.setText(difficultyLevel.toString());
-                    }
-                }
+                proximity.onTranslation(event.values);
+                difficultyLevel = proximity.getDifficultyLevel();
+                DifficultyView.setTextColor(difficultyLevel.getLevelColor());
+                DifficultyView.setText(difficultyLevel.toString());
             }
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
             }
-        };
+        });
     }
 
     @Override
@@ -173,15 +157,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        mSensorManager.registerListener(proximitySensorListener, proximitySensor,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        proximity.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         audioManager.getBackgroundMusic().pause();
-        mSensorManager.unregisterListener(proximitySensorListener);
+        proximity.unregister();
     }
 
 }
