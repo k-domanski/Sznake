@@ -94,7 +94,6 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (isPlaying) {
-            isPaused = proximityService.isPaused();
             if (isUpdateRequired() && !isPaused) {
                 game.setUpgradePosition(magnetometerService.getRandX(),
                         magnetometerService.getRandY());
