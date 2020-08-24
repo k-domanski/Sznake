@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * Is a class managing game logic
+ * Is a class managing game.
  */
 public class Game implements Serializable {
     private GameBoard gameBoard;
@@ -33,6 +33,9 @@ public class Game implements Serializable {
     /**
      * Creates a new Game with specified dimensions, snake length and
      * initial direction the snake is facing.
+     * <p>
+     * Creating new Game also creates a new {@link GameBoard} and generates a new
+     * upgrade.
      *
      * @param sizeX                 amount of fields along X axis the gameBoard is going to have
      * @param sizeY                 amount of fields along Y axis the gameBoard is going to have
@@ -40,9 +43,11 @@ public class Game implements Serializable {
      * @param initialSnakeDirection decides whether snake begins game facing up, down,
      *                              left or right
      */
-    public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,DifficultyLevel difficultyLevel) {
+    public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,
+                DifficultyLevel difficultyLevel) {
         m_difficultyLevel=difficultyLevel;
-        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection,difficultyLevel);
+        gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection,
+                difficultyLevel);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
         upgradeY = (int) (Math.random() * gameBoard.getSizeY());
         upgrade = new GrowUpField(upgradeX, upgradeY);
@@ -95,7 +100,11 @@ public class Game implements Serializable {
     }
 
     /**
-     *
+     * Updates the game state.
+     * <p>
+     * Called once per frame. Responsible for moving the {@link Snake}, checks collisions
+     * with {@link GrowUpField} and both {@link BlockedField} and {@link Snake} itself.
+     * Checks if the {@link QTE} supposed to be triggered.
      */
     public void update() {
         Class<? extends GameField> nextFieldType = gameBoard.getSnakeNextLocation().getClass();
@@ -152,8 +161,8 @@ public class Game implements Serializable {
     /**
      * Returns activity status of {@link QTE}.
      *
-     * @return  true if QTE is still waiting to be completed,
-     *          false if it has expired or doesn't exist
+     * @return  <code>true</code> if QTE is still waiting to be completed,
+     *          <code>false</code> if it has expired or doesn't exist
      */
     public boolean isQTEActive() {
         if (qte == null) {
@@ -162,6 +171,13 @@ public class Game implements Serializable {
         else return qte.isQTEActive();
     }
 
+    /**
+     * Draws the background and all {@link GameField} in the current board.
+     *
+     * @param canvas     specified {link Canvas}
+     * @param paint      specified {@link Paint}
+     * @param blockSize  size of a single {@link GameField} in pixels
+     */
     public void draw(Canvas canvas, Paint paint, int blockSize) {
 
         canvas.drawColor(Color.argb(255, 26, 128, 182));
@@ -201,22 +217,10 @@ public class Game implements Serializable {
     }
 
     /**
+     * Sets upgrade position.
      *
-     * @return
-     */
-    public QTE getQte() {
-        return qte;
-    }
-
-    public void setUpgradeColor(int color)
-    {
-        upgrade.setColor(color);
-    }
-
-    /**
-     *
-     * @param newX
-     * @param newY
+     * @param newX  new position on the {@link GameBoard} along x-axis
+     * @param newY  new position on the {@link GameBoard} along y-axis
      */
     public void setUpgradePosition(int newX, int newY)
     {
@@ -224,12 +228,11 @@ public class Game implements Serializable {
         upgradeY = newY;
     }
 
-    /**
-     *
-     * @param difficultyLevel
-     */
     public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
         m_difficultyLevel = difficultyLevel;
     }
 
+    public QTE getQte() {
+        return qte;
+    }
 }
