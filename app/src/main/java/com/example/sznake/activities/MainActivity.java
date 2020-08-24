@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.sznake.AudioManager;
+import com.example.sznake.sensorServices.FingerprintService;
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.DifficultyLevel;
@@ -25,12 +26,13 @@ import com.example.sznake.sensorServices.ProximityService;
 import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FingerprintService.OnAuthenticationListener {
 
     static public AudioManager audioManager;
     private DifficultyLevel difficultyLevel=DifficultyLevel.EASY;
     private TextView DifficultyView;
     private ProximityService proximity;
+    private FingerprintService mFingerprintService;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -105,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mFingerprintService = new FingerprintService(this);
+        mFingerprintService.setOnAuthenticationListener(this);
     }
 
     @Override
@@ -137,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
         super.onResume();
@@ -158,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         proximity.register();
+        mFingerprintService.startListening();
     }
 
     @Override
@@ -165,6 +172,11 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         audioManager.getBackgroundMusic().pause();
         proximity.unregister();
+        mFingerprintService.stopListening();
     }
 
+    @Override
+    public void onAuth() {
+        audioManager.changeBackgroundMusic();
+    }
 }
