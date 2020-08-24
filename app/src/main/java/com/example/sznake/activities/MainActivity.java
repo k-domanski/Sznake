@@ -16,7 +16,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.sznake.AudioManager;
+import com.example.sznake.audio.AudioManager;
 import com.example.sznake.sensorServices.FingerprintService;
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;

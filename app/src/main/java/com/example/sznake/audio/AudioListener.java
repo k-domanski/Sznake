@@ -1,4 +1,4 @@
-package com.example.sznake;
+package com.example.sznake.audio;
 
 public interface AudioListener {
     public void onGrowUpPicked();
