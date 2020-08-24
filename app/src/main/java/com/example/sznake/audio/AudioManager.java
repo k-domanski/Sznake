@@ -1,12 +1,11 @@
-package com.example.sznake;
+package com.example.sznake.audio;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Range;
+
+import com.example.sznake.R;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 
 public class AudioManager implements AudioListener {
     private ArrayList<Integer> backgroundPlaylist = new ArrayList<>();
@@ -92,11 +91,11 @@ public class AudioManager implements AudioListener {
     public void changeBackgroundMusic()
     {
         backgroundMusic.reset();
-        backgroundMusic.setLooping(true);
         trackNumber++;
         if(trackNumber >= backgroundPlaylist.size())
             trackNumber = 0;
         backgroundMusic = MediaPlayer.create(m_context,backgroundPlaylist.get(trackNumber));
+        backgroundMusic.setLooping(true);
         backgroundMusic.start();
     }
 }

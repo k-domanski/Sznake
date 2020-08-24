@@ -32,7 +32,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean isPlaying;
     private boolean gameOver;
-    private boolean isPaused;
 
     private PropertyChangeSupport changeSupport;
 
@@ -94,7 +93,7 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (isPlaying) {
-            if (isUpdateRequired() && !isPaused) {
+            if (isUpdateRequired()) {
                 game.setUpgradePosition(magnetometerService.getRandX(),
                         magnetometerService.getRandY());
                 game.update();
@@ -200,20 +199,18 @@ public class GameView extends SurfaceView implements Runnable {
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                if(!isPaused) {
-                    if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscopeService.setDirection(Direction.RIGHT);
-                        break;
-                    } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
-                        gyroscopeService.setDirection(Direction.LEFT);
-                        break;
-                    } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscopeService.setDirection(Direction.DOWN);
-                        break;
-                    } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
-                        gyroscopeService.setDirection(Direction.UP);
-                        break;
-                    }
+                if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+                    gyroscopeService.setDirection(Direction.RIGHT);
+                    break;
+                } else if (event.getX() < screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+                    gyroscopeService.setDirection(Direction.LEFT);
+                    break;
+                } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+                    gyroscopeService.setDirection(Direction.DOWN);
+                    break;
+                } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+                    gyroscopeService.setDirection(Direction.UP);
+                    break;
                 }
         }
 
