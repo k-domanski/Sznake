@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi;
  * Represents the fingerprint sensor service.
  * <p>
  * It is responsible for changing background music in an activity,
- * which implements listener listening to any changes in the sensor
+ * which implements listener listening to any changes in the sensor.
  */
 public class FingerprintService {
     private FingerprintManager m_fingerprintManager;
@@ -29,7 +29,8 @@ public class FingerprintService {
     }
 
     /**
-     * Setter used for setting up the listener
+     * Setter used for setting up the listener.
+     *
      * @param listener listener of fingerprint authentication,
      *                 which is activity implementing OnAuthenticationListener interface.
      */
@@ -55,7 +56,8 @@ public class FingerprintService {
                 }
 
                 @Override
-                public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+                public void onAuthenticationSucceeded(
+                        FingerprintManager.AuthenticationResult result) {
                     m_authorisationListener.onAuth();
                 }
 
@@ -76,7 +78,8 @@ public class FingerprintService {
             try{
                 if(m_cancellationSignal == null)
                     m_cancellationSignal = new CancellationSignal();
-                m_fingerprintManager.authenticate(null, m_cancellationSignal, 0 /* flags */, m_authenticationCallback, null);
+                m_fingerprintManager.authenticate(null, m_cancellationSignal,
+                        0 /* flags */, m_authenticationCallback, null);
             } catch (Exception e){
                 e.printStackTrace();
             }

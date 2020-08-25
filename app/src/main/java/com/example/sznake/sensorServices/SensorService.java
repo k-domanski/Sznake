@@ -8,8 +8,6 @@ import android.hardware.SensorManager;
 
 /**
  * Abstract base class represents different types of sensors and their functionality.
- * <p>
- *
  */
 public abstract class SensorService {
     /**
@@ -86,11 +84,6 @@ public abstract class SensorService {
      */
     public abstract void onTranslation(float[] sensorEventValues);
 
-    /**
-     *
-     *
-     * @param sensorEventListener
-     */
     public void setSensorEventListener(SensorEventListener sensorEventListener) {
         this.sensorEventListener = sensorEventListener;
     }
