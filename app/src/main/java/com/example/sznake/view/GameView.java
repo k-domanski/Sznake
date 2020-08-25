@@ -23,7 +23,7 @@ import com.example.sznake.sensorServices.ProximityService;
 import java.beans.PropertyChangeSupport;
 
 /**
- * 
+ *
  */
 public class GameView extends SurfaceView implements Runnable {
     private static final long MILLIS_PER_SECOND = 1000;
