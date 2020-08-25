@@ -15,6 +15,7 @@ import com.example.sznake.dao.DatabaseHandler;
 
 public class GameOverActivity extends AppCompatActivity {
     MediaPlayer gameOverMusic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class GameOverActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         findViewById(R.id.again).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
