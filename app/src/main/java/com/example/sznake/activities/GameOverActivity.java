@@ -12,15 +12,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sznake.R;
 import com.example.sznake.dao.DatabaseHandler;
 
-
+/**
+ * Represent game over screen.
+ */
 public class GameOverActivity extends AppCompatActivity {
-    MediaPlayer gameOverMusic;
-
+    /**
+     * Sets points values in game over screen.
+     * Saves points.
+     * Sets on click listeners for available views.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameover);
-        gameOverMusic = MainActivity.audioManager.getGameOverMusic();
 
 
 
@@ -56,6 +60,9 @@ public class GameOverActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Plays game over sound.
+     */
     @Override
     protected void onResume() {
         super.onResume();
