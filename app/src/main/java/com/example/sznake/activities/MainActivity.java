@@ -29,7 +29,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity implements FingerprintService.OnAuthenticationListener {
 
     static public AudioManager audioManager;
-    private DifficultyLevel difficultyLevel=DifficultyLevel.EASY;
+    private DifficultyLevel difficultyLevel = DifficultyLevel.EASY;
     private TextView DifficultyView;
     private ProximityService proximity;
     private FingerprintService mFingerprintService;
@@ -39,11 +39,15 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
         audioManager = new AudioManager(MainActivity.this);
+
         DifficultyView = findViewById(R.id.difficulty);
         DifficultyView.setTextColor(Color.GREEN);
         DifficultyView.setText(difficultyLevel.toString());
+
         proximity = new ProximityService(this);
 
         findViewById(R.id.volumeCtrl).setOnClickListener(new View.OnClickListener() {
@@ -66,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent=  new Intent(MainActivity.this,GameActivity.class);
-                intent.putExtra("difficulty",difficultyLevel);
+               Intent intent=  new Intent(MainActivity.this, GameActivity.class);
+                intent.putExtra("difficulty", difficultyLevel);
                 startActivityForResult(intent,1);
             }
         });
@@ -76,16 +80,17 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=  new Intent(MainActivity.this,GameActivity.class);
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("resume",true);
                 startActivityForResult(intent,1);
             }
         });
 
-        if(!Settings.System.canWrite(this)) {
+        if (!Settings.System.canWrite(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             this.startActivity(intent);
         }
+
         findViewById(R.id.exitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,18 +126,18 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==1){
-            if(resultCode== Activity.RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode== Activity.RESULT_OK) {
                 int points = data.getIntExtra("result",0);
-                Intent intent=  new Intent(MainActivity.this,GameOverActivity.class);
+                Intent intent = new Intent(MainActivity.this,GameOverActivity.class);
                 intent.putExtra("points",points);
                 this.startActivityForResult(intent,2);
             }
         }
-        else if(requestCode==2){
-            if(resultCode == Activity.RESULT_OK){
+        else if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
                 boolean newGame = data.getBooleanExtra("tryAgain",false);
-                if(newGame){
+                if (newGame) {
                     Intent intent=  new Intent(MainActivity.this,GameActivity.class);
                     intent.putExtra("difficulty",difficultyLevel);
                     startActivityForResult(intent,1);
@@ -147,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
     protected void onResume() {
         super.onResume();
         audioManager.onGameStart();
+
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         int highscore=0;
         highscore=databaseHandler.getHighestScore();
@@ -154,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         scoreView.setText(String.valueOf(highscore));
         try {
             TextView textView = findViewById(R.id.load);
-            if(databaseHandler.getGame()==null){
+            if (databaseHandler.getGame() == null) {
                 textView.setVisibility(View.INVISIBLE);
             }
             else {
@@ -163,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        
         proximity.register();
         mFingerprintService.startListening();
     }

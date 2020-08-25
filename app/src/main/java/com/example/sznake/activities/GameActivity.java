@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.example.sznake.audio.AudioManager;
 import com.example.sznake.dao.DatabaseHandler;
 import com.example.sznake.gameCore.DifficultyLevel;
 import com.example.sznake.gameCore.Game;
@@ -18,14 +19,22 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ *
+ */
 public class GameActivity extends AppCompatActivity {
 
-    GameView gameView;
-
+    /**
+     *
+     */
     public PropertyChangeListener changeListener;
-    DifficultyLevel difficultyLevel;
 
+    private GameView gameView;
+    private DifficultyLevel difficultyLevel;
 
+    /**
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,22 +45,20 @@ public class GameActivity extends AppCompatActivity {
 
         Point size = new Point();
         display.getSize(size);
+
         int gatheredPoints = getIntent().getIntExtra("points",0);
         boolean resumeGame = getIntent().getBooleanExtra("resume",false);
         Game game = null;
+
         if(resumeGame){
-            DatabaseHandler databaseHandler= new DatabaseHandler(this);
-            try {
-                game = databaseHandler.getGame();
-                databaseHandler.close();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            game = loadGameFromDatabase();
         }
         else {
             difficultyLevel = (DifficultyLevel) getIntent().getSerializableExtra("difficulty");
         }
-        gameView = new GameView(this, size,game,difficultyLevel);
+
+        gameView = new GameView(this, size, game, difficultyLevel);
+
         changeListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -60,18 +67,18 @@ public class GameActivity extends AppCompatActivity {
                     intent.putExtra("result",gameView.getGame().getPoints());
                     setResult(Activity.RESULT_OK,intent);
                     finish();
-
                 }
             }
         };
+
         gameView.getChangeSupport().addPropertyChangeListener(changeListener);
         setContentView(gameView);
-
-
     }
 
-
-
+    /**
+     * Resumes the current {@link GameView}.
+     * Starts music {@link AudioManager#onGameStart()}.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -80,12 +87,25 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Pauses the current {@link GameView}.
+     * Stops current background music.
+     * Saves game.
+     */
     @Override
     protected void onPause() {
         super.onPause();
         gameView.pause();
         MainActivity.audioManager.getBackgroundMusic().pause();
+        saveGameOnPause();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void saveGameOnPause() {
         DatabaseHandler databaseHandler= new DatabaseHandler(this);
 
         if(gameView.isGameOver()){
@@ -100,10 +120,15 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-
-
-        super.onDestroy();
+    private Game loadGameFromDatabase() {
+        Game game = null;
+        DatabaseHandler databaseHandler= new DatabaseHandler(this);
+        try {
+            game = databaseHandler.getGame();
+            databaseHandler.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return game;
     }
 }
