@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 
 /**
  * Represents the fingerprint sensor service.
- * <p>
+ *
  * It is responsible for changing background music in an activity,
  * which implements listener listening to any changes in the sensor.
  * <p>
@@ -25,14 +25,15 @@ public class FingerprintService {
     /**
      * Iterface implemented by an activity
      * that needs to react to changes in fingerprint sensor.
-     * The reaction must be implemented in onAuth() method.
+     *
+     * The reaction must be implemented in {@link #onAuth()} method.
      */
     public interface OnAuthenticationListener {
         void onAuth();
     }
 
     /**
-     * Setter used for setting up the listener.
+     * Setter used for setting up the the fingerprint authentication listener.
      *
      * @param listener listener of fingerprint authentication,
      *                 which is activity implementing OnAuthenticationListener interface.
