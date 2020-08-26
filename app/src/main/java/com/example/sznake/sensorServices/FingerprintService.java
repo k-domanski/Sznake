@@ -12,6 +12,9 @@ import androidx.annotation.RequiresApi;
  * <p>
  * It is responsible for changing background music in an activity,
  * which implements listener listening to any changes in the sensor.
+ * <p>
+ * Note: There must be at least one fingerprint already registered in the system
+ * </p>
  */
 public class FingerprintService {
     private FingerprintManager m_fingerprintManager;
