@@ -35,7 +35,7 @@ public class FingerprintService {
      * Setter used for setting up the the fingerprint authentication listener.
      *
      * @param listener listener of fingerprint authentication,
-     *                 which is activity implementing OnAuthenticationListener interface.
+     *                 which is activity implementing {@link OnAuthenticationListener} interface.
      */
     public void setOnAuthenticationListener(OnAuthenticationListener listener){
         m_authorisationListener = listener;

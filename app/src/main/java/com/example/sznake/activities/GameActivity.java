@@ -20,20 +20,19 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**
- *
+ * Represents game activity.
  */
 public class GameActivity extends AppCompatActivity {
-
-    /**
-     *
-     */
-    public PropertyChangeListener changeListener;
 
     private GameView gameView;
     private DifficultyLevel difficultyLevel;
 
     /**
-     *
+     * Creates game on a certain {@link DifficultyLevel} or resumes from database.
+     * @see DatabaseHandler
+     * Setups display.
+     * Creates {@link GameView} and listens to the game state.
+     * If the game is over it saves the points gained.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +58,13 @@ public class GameActivity extends AppCompatActivity {
 
         gameView = new GameView(this, size, game, difficultyLevel);
 
-        changeListener = new PropertyChangeListener() {
+        PropertyChangeListener changeListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if(gameView.isGameOver()){
-                    Intent intent= new Intent();
-                    intent.putExtra("result",gameView.getGame().getPoints());
-                    setResult(Activity.RESULT_OK,intent);
+                if (gameView.isGameOver()) {
+                    Intent intent = new Intent();
+                    intent.putExtra("result", gameView.getGame().getPoints());
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
             }
