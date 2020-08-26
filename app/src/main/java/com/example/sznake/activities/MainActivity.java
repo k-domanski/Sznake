@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
     @Override
     protected void onResume() {
         super.onResume();
+
         audioManager.onGameStart();
 
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
