@@ -25,7 +25,12 @@ import com.example.sznake.sensorServices.ProximityService;
 
 import java.io.IOException;
 
-
+/**
+ * Represents main Menu acticity.
+ *
+ * Implements {@link com.example.sznake.sensorServices.FingerprintService.OnAuthenticationListener}
+ * in order to listen to fingerprint authentication changes.
+ */
 public class MainActivity extends AppCompatActivity implements FingerprintService.OnAuthenticationListener {
 
     static public AudioManager audioManager;
@@ -34,7 +39,15 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
     private ProximityService proximity;
     private FingerprintService mFingerprintService;
 
-
+    /**
+     * Defines functionality of Main Menu.
+     *
+     * Sets onClickListeners for all menu buttons and displays difficulty level.
+     * Delegates {@link AudioManager} to handle background music.
+     * Creates {@link com.example.sznake.sensorServices.SensorService} services
+     * used in the activity for handling sensors outputs.
+     * Sets listener for {@link FingerprintService} authentication and {@link ProximityService}
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +135,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         super.onDestroy();
     }
 
+    /**
+     * Defines how {@link MainActivity} screen looks like after returning from {@link GameActivity}
+     * after game is over.
+     *
+     * It displays players score and asks him/her to try again.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -147,6 +166,13 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         }
     }
 
+    /**
+     * Defines on resume behaviour of {@link MainActivity}
+     *
+     * Delegates {@link AudioManager} to handle music.
+     * Delegates {@link DatabaseHandler} to handle resumed game and highest score display.
+     * Registeres {@link ProximityService} and starts listening of {@link FingerprintService}
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
@@ -175,6 +201,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         mFingerprintService.startListening();
     }
 
+    /**
+     * Defines on pause behaviour of {@link MainActivity}
+     *
+     * Delegates {@link AudioManager} to pause background music.
+     * Unregisteres {@link ProximityService} and stops listening of {@link FingerprintService}
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -183,6 +215,15 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         mFingerprintService.stopListening();
     }
 
+    /**
+     * Implements the reaction on fingerprint authentication.
+     *
+     * Changes background music.
+     *
+     * Overrides method from
+     * {@link com.example.sznake.sensorServices.FingerprintService.OnAuthenticationListener} listener
+     * @see FingerprintService
+     */
     @Override
     public void onAuth() {
         audioManager.changeBackgroundMusic();
