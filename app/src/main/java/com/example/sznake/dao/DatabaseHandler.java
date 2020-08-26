@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ *  Is a class managing database containing saved {@link Game}s and final points.
+ */
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "SnakeDB";
@@ -25,10 +28,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String[] FIRST_COLUMNS = { KEY_ID, KEY_DATA};
     private static final String[] SECOND_COLUMNS = {KEY_Points};
 
+    /**
+     * Creates new instance of DatabaseHandler.
+     *
+     * @param context {@link Context}
+     */
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Using sql queries checks if Games and Points tables exist, and if not, creates them.
+     *
+     * @param db {@link SQLiteDatabase} on which the actions are performed
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE_GAMES = "CREATE TABLE IF NOT EXISTS Games ( "
@@ -40,6 +53,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Using sl queries removes existing Game and Points tables.
+     *
+     * @param db {@link SQLiteDatabase} on which the actions are performed
+     * @param oldVersion old database version number
+     * @param newVersion new database bersion number
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + FIRST_TABLE_NAME);
@@ -48,6 +68,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Saves {@link Game} object into the Games table.
+     *
+     * @param game {@link Game} object saved to database
+     * @throws IOException is thrown if error occurs during streaming {@link Game} object
+     */
     public void saveGame(Game game) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -65,12 +91,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         byteArrayOutputStream.close();
     }
 
+    /**
+     * Removes all records from Games table.
+     */
     public void clearGames() {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(FIRST_TABLE_NAME,null,null);
         database.close();
     }
 
+    /**
+     * Saves points value into Points table
+     *
+     * @param points points value
+     */
     public void savePoints(int points) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -79,6 +113,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.close();
     }
 
+    /**
+     * Returns last record of Games table
+     *
+     * @return {@link Game} object from last record of Games table
+     * @throws IOException is thrown if error occurs during streaming {@link Game} object
+     * @throws ClassNotFoundException is thrown if object from database cannot be converted into {@link Game} object
+     */
     public Game getGame() throws IOException, ClassNotFoundException {
         Game game = null;
         SQLiteDatabase database = this.getReadableDatabase();
@@ -98,6 +139,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return game;
     }
 
+    /**
+     * Returns record with highest Points value from Points database.
+     *
+     * @return highest points value from Points database.
+     */
     public int getHighestScore() {
         int highscore = 0;
         SQLiteDatabase database = this.getReadableDatabase();
