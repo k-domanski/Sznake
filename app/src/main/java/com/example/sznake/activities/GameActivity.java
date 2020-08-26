@@ -29,10 +29,12 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Creates game on a certain {@link DifficultyLevel} or resumes from database.
-     * @see DatabaseHandler
+     * <p>
      * Setups display.
      * Creates {@link GameView} and listens to the game state.
      * If the game is over it saves the points gained.
+     *
+     * @see DatabaseHandler
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
