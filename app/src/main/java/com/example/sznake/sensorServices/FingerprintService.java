@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
  * It is responsible for changing background music in an activity,
  * which implements listener listening to any changes in the sensor.
  * <p>
- * Note: There must be at least one fingerprint already registered in the system
+ * Note: There must be at least one fingerprint already registered in the system.
  * </p>
  */
 public class FingerprintService {
@@ -23,8 +23,7 @@ public class FingerprintService {
     private OnAuthenticationListener m_authorisationListener;
 
     /**
-     * Iterface implemented by an activity
-     * that needs to react to changes in fingerprint sensor.
+     * Iterface implemented by an activity that needs to react to changes in fingerprint sensor.
      *
      * The reaction must be implemented in {@link #onAuth()} method.
      */
@@ -77,7 +76,7 @@ public class FingerprintService {
     }
 
     /**
-     * Called whenever listener starts listening.
+     * Called whenever fingerprint authentication listener starts listening.
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void startListening(){
@@ -95,7 +94,7 @@ public class FingerprintService {
     }
 
     /**
-     * Called whenever listener stops listening.
+     * Called whenever fingerprint authentication listener stops listening.
      */
     public void stopListening(){
         if ( isFingerScannerAvailableAndSet() ) {
