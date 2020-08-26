@@ -56,17 +56,20 @@ public class FingerprintService {
                 @Override
                 public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
                     m_authorisationListener.onAuth();
+                    startListening();
                 }
 
                 @Override
                 public void onAuthenticationSucceeded(
                         FingerprintManager.AuthenticationResult result) {
                     m_authorisationListener.onAuth();
+                    startListening();
                 }
 
                 @Override
                 public void onAuthenticationFailed() {
                     m_authorisationListener.onAuth();
+                    startListening();
                 }
             };
         }
@@ -79,8 +82,9 @@ public class FingerprintService {
     public void startListening(){
         if (isFingerScannerAvailableAndSet() ) {
             try{
-                if(m_cancellationSignal == null)
+                if(m_cancellationSignal == null) {
                     m_cancellationSignal = new CancellationSignal();
+                }
                 m_fingerprintManager.authenticate(null, m_cancellationSignal,
                         0 /* flags */, m_authenticationCallback, null);
             } catch (Exception e){
@@ -106,11 +110,11 @@ public class FingerprintService {
     public boolean isFingerScannerAvailableAndSet(){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             return false;
-        if( m_fingerprintManager == null )
+        if (m_fingerprintManager == null )
             return false;
-        if( !m_fingerprintManager.isHardwareDetected() )
+        if (!m_fingerprintManager.isHardwareDetected() )
             return false;
-        if( !m_fingerprintManager.hasEnrolledFingerprints())
+        if (!m_fingerprintManager.hasEnrolledFingerprints())
             return false;
 
         return true;

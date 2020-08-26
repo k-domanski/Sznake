@@ -113,8 +113,9 @@ public class AudioManager implements AudioListener {
     {
         backgroundMusic.reset();
         trackNumber++;
-        if(trackNumber >= backgroundPlaylist.size())
+        if (trackNumber >= backgroundPlaylist.size()) {
             trackNumber = 0;
+        }
         backgroundMusic = MediaPlayer.create(m_context,backgroundPlaylist.get(trackNumber));
         backgroundMusic.setLooping(true);
         backgroundMusic.start();
