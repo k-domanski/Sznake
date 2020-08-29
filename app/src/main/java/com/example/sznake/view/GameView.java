@@ -41,7 +41,6 @@ public class GameView extends SurfaceView implements Runnable {
     private LightService lightService;
     private MagnetometerService magnetometerService;
     private GyroscopeService gyroscopeService;
-    private ProximityService proximityService;
 
     private long nextFrameTime;
 
@@ -79,8 +78,6 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         gyroscopeService = new GyroscopeService(context);
-
-        proximityService = new ProximityService(context);
 
         try {
             lightService = new LightService(context);
@@ -169,7 +166,6 @@ public class GameView extends SurfaceView implements Runnable {
      */
     public void resume() {
         gyroscopeService.register();
-        proximityService.register();
         lightService.register();
         accelerometerService.register();
         magnetometerService.register();
@@ -184,7 +180,6 @@ public class GameView extends SurfaceView implements Runnable {
     public void pause() {
         try {
             gyroscopeService.unregister();
-            proximityService.unregister();
             lightService.unregister();
             accelerometerService.unregister();
             magnetometerService.unregister();
