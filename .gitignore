@@ -11,3 +11,6 @@
 
 .idea/misc.xml
 .idea/gradle.xml
+
+*.zip
+/app/release/*
