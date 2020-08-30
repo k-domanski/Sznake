@@ -19,7 +19,7 @@ public class AccelerometerService extends SensorService {
     /**
      * Constant represents sensitivity threshold of sensor values.
      */
-    private static final float ACC_TRESHOLD = 1.0f;
+    private static final float ACC_TRESHOLD = 2.0f;
     /**
      * Direction based on accelerometer output.
      */
