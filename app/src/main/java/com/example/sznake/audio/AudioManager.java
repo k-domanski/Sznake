@@ -35,9 +35,7 @@ public class AudioManager implements AudioListener {
         pickUpMusic = MediaPlayer.create(context, R.raw.pick_up);
         backgroundPlaylist.add(R.raw.vandetta);
         backgroundPlaylist.add(R.raw.blues);
-        backgroundPlaylist.add(R.raw.snowflake);
         backgroundPlaylist.add(R.raw.spaceships);
-        backgroundPlaylist.add(R.raw.sundays);
         backgroundMusic = MediaPlayer.create(context, backgroundPlaylist.get(trackNumber));
         backgroundMusic.setLooping(true);
         gameOverMusic = MediaPlayer.create(context, R.raw.game_over);
