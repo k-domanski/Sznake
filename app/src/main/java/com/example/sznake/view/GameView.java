@@ -18,7 +18,6 @@ import com.example.sznake.sensorServices.AccelerometerService;
 import com.example.sznake.sensorServices.GyroscopeService;
 import com.example.sznake.sensorServices.LightService;
 import com.example.sznake.sensorServices.MagnetometerService;
-import com.example.sznake.sensorServices.ProximityService;
 
 import java.beans.PropertyChangeSupport;
 
