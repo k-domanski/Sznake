@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintServic
         audioManager.onGameStart();
 
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        int highscore=0;
+        int highscore;
         highscore=databaseHandler.getHighestScore();
         TextView scoreView = findViewById(R.id.hpoints);
         scoreView.setText(String.valueOf(highscore));

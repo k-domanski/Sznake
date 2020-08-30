@@ -60,10 +60,7 @@ public class QTE implements Serializable {
      *                   of quick time event, <code>false</code> if otherwise
      */
     public boolean checkQTE(Direction direction) {
-        if (QTEDirection == direction) {
-            return true;
-        }
-        return false;
+        return QTEDirection == direction;
     }
 
     /**
@@ -85,7 +82,7 @@ public class QTE implements Serializable {
         paint.setAlpha(70);
         paint.setTextSize(500);
         canvas.drawText(getQTEDirection().toString(),
-                screenX/2-100, screenY/2+100, paint);
+                (float)screenX/2-100, (float)screenY/2+100, paint);
     }
 
     public Direction getQTEDirection() {
