@@ -32,7 +32,7 @@ public class LightService extends SensorService {
      * Throws exception whenever app has no rights to change system settings.
      *
      * @param context specified {@link Context}
-     * @throws Settings.SettingNotFoundException
+     * @throws Settings.SettingNotFoundException if app is not permitted to change system settings
      * @see SensorService
      */
     public LightService(Context context) throws Settings.SettingNotFoundException {

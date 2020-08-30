@@ -1,7 +1,6 @@
 package com.example.sznake.sensorServices;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 

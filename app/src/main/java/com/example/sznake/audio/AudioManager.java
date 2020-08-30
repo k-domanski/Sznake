@@ -17,7 +17,6 @@ public class AudioManager implements AudioListener {
     private ArrayList<Integer> backgroundPlaylist = new ArrayList<>();
     private MediaPlayer backgroundMusic;
     private MediaPlayer pickUpMusic;
-    private MediaPlayer qteMusic;
     private MediaPlayer gameOverMusic;
     private boolean isMuted = false;
     Context m_context;
@@ -56,16 +55,6 @@ public class AudioManager implements AudioListener {
             return;
         }
         pickUpMusic.start();
-    }
-
-    /**
-     * Plays sound corresponding with quick time event whenever the event is successful.
-     *
-     * @see com.example.sznake.gameCore.QTE
-     */
-    @Override
-    public void onQTESuccess() {
-        qteMusic.start();
     }
 
     /**
@@ -125,7 +114,6 @@ public class AudioManager implements AudioListener {
         return isMuted;
     }
 
-
     public void setMuted(boolean muted) {
         isMuted = muted;
     }
@@ -133,10 +121,4 @@ public class AudioManager implements AudioListener {
     public MediaPlayer getBackgroundMusic() {
         return backgroundMusic;
     }
-
-    public MediaPlayer getGameOverMusic() {
-        return gameOverMusic;
-    }
-
-
 }

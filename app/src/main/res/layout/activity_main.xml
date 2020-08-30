@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/play"
         android:layout_centerHorizontal="true"
-        android:text="Continue last game"
+        android:text="Continue"
         android:textColor="@android:color/black"
-        android:textSize="45sp" />
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/exitButton"
@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:text="Exit"
         android:textColor="@android:color/black"
-        android:textSize="45sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:layout_width="wrap_content"

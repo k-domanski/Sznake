@@ -23,7 +23,6 @@ public class Game implements Serializable {
     private int points = 0;
     private boolean isDead;
     private boolean failedQTE;
-    private DifficultyLevel m_difficultyLevel;
     private GrowUpField upgrade;
     private QTE qte;
     private int QTEMultiplier;
@@ -45,7 +44,6 @@ public class Game implements Serializable {
      */
     public Game(int sizeX, int sizeY, int snakeSize, Direction initialSnakeDirection,
                 DifficultyLevel difficultyLevel) {
-        m_difficultyLevel=difficultyLevel;
         gameBoard = new GameBoard(sizeX, sizeY, snakeSize, initialSnakeDirection,
                 difficultyLevel);
         upgradeX = (int) (Math.random() * gameBoard.getSizeX());
@@ -226,10 +224,6 @@ public class Game implements Serializable {
     {
         upgradeX = newX;
         upgradeY = newY;
-    }
-
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
-        m_difficultyLevel = difficultyLevel;
     }
 
     public QTE getQte() {

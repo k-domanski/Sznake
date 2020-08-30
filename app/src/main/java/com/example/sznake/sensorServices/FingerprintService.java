@@ -108,14 +108,18 @@ public class FingerprintService {
     }
 
     public boolean isFingerScannerAvailableAndSet(){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return false;
-        if (m_fingerprintManager == null )
+        }
+        if (m_fingerprintManager == null ) {
             return false;
-        if (!m_fingerprintManager.isHardwareDetected() )
+        }
+        if (!m_fingerprintManager.isHardwareDetected()) {
             return false;
-        if (!m_fingerprintManager.hasEnrolledFingerprints())
+        }
+        if (!m_fingerprintManager.hasEnrolledFingerprints()) {
             return false;
+        }
 
         return true;
     }

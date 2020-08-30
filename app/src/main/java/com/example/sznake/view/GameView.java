@@ -23,7 +23,7 @@ import com.example.sznake.sensorServices.ProximityService;
 import java.beans.PropertyChangeSupport;
 
 /**
- *
+ * Main game thread. Contains all required sensors.
  */
 public class GameView extends SurfaceView implements Runnable {
     private static final long MILLIS_PER_SECOND = 1000;
@@ -41,7 +41,6 @@ public class GameView extends SurfaceView implements Runnable {
     private LightService lightService;
     private MagnetometerService magnetometerService;
     private GyroscopeService gyroscopeService;
-    private ProximityService proximityService;
 
     private long nextFrameTime;
 
@@ -79,8 +78,6 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 
         gyroscopeService = new GyroscopeService(context);
-
-        proximityService = new ProximityService(context);
 
         try {
             lightService = new LightService(context);
@@ -169,7 +166,6 @@ public class GameView extends SurfaceView implements Runnable {
      */
     public void resume() {
         gyroscopeService.register();
-        proximityService.register();
         lightService.register();
         accelerometerService.register();
         magnetometerService.register();
@@ -184,7 +180,6 @@ public class GameView extends SurfaceView implements Runnable {
     public void pause() {
         try {
             gyroscopeService.unregister();
-            proximityService.unregister();
             lightService.unregister();
             accelerometerService.unregister();
             magnetometerService.unregister();
@@ -212,13 +207,23 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            if (event.getX() >= screenX / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+            Direction currentSnakeDirection = game.getGameBoard().getSnake().getDirection();
+
+            if (event.getX() >= (float)screenX / 2 &&
+                    (currentSnakeDirection == Direction.DOWN ||
+                            currentSnakeDirection == Direction.UP)) {
                 gyroscopeService.setDirection(Direction.RIGHT);
-            } else if (event.getX() < (float)(screenX / 2) && (game.getGameBoard().getSnake().getDirection() == Direction.DOWN || game.getGameBoard().getSnake().getDirection() == Direction.UP)) {
+            } else if (event.getX() < (float)(screenX / 2) &&
+                    (currentSnakeDirection == Direction.DOWN ||
+                            currentSnakeDirection == Direction.UP)) {
                 gyroscopeService.setDirection(Direction.LEFT);
-            } else if (event.getY() >= screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+            } else if (event.getY() >= (float)screenY / 2 &&
+                    (currentSnakeDirection == Direction.RIGHT ||
+                            currentSnakeDirection == Direction.LEFT)) {
                 gyroscopeService.setDirection(Direction.DOWN);
-            } else if (event.getY() < screenY / 2 && (game.getGameBoard().getSnake().getDirection() == Direction.RIGHT || game.getGameBoard().getSnake().getDirection() == Direction.LEFT)) {
+            } else if (event.getY() < (float)screenY / 2 &&
+                    (currentSnakeDirection == Direction.RIGHT ||
+                            currentSnakeDirection == Direction.LEFT)) {
                 gyroscopeService.setDirection(Direction.UP);
             }
         }
